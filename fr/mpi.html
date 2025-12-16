@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Premiers pas avec MPI &#8212; MPI201</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=72dce1d2"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/translations.js?v=e6b791cb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'mpi';</script>
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Communications point-à-point" href="point-a-point.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Programmation parallèle avec MPI4py (MPI201)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Premiers pas avec MPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point-a-point.html">Communications point-à-point</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collectives.html">Communications collectives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Référence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="aide-memoire.html">Aide-mémoire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliographie.html">Bibliographie</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Liens externes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.alliancecan.ca/wiki/Technical_documentation/fr">Documentation technique de l’Alliance</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.calculquebec.ca/services-aux-chercheurs/formation/">Formations de Calcul Québec</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/mpi.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Premiers pas avec MPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quest-ce-que-mpi">Qu’est-ce que MPI?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-dun-code-mpi">Structure d’un code MPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelisation-explicite">Parallélisation explicite</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communicateurs">Communicateurs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nombre-de-processus-et-un-rang-unique">Nombre de processus et un rang unique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environnement-requis-pour-utiliser-mpi">Environnement requis pour utiliser MPI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compilation-dun-programme-mpi">Compilation d’un programme MPI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lancement-dun-programme-mpi">Lancement d’un programme MPI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1-premier-lancement">Exercice #1 - Premier lancement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-communications-via-mpi">Les communications via MPI</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="premiers-pas-avec-mpi">
+<h1>Premiers pas avec MPI<a class="headerlink" href="#premiers-pas-avec-mpi" title="Lien vers cette rubrique">#</a></h1>
+<p><a class="reference external" href="../en/mpi.html">English</a></p>
+<section id="quest-ce-que-mpi">
+<h2>Qu’est-ce que MPI?<a class="headerlink" href="#quest-ce-que-mpi" title="Lien vers cette rubrique">#</a></h2>
+<p>MPI, pour <strong>Message Passing Interface</strong>, est une interface de transmission de
+messages.</p>
+<ul class="simple">
+<li><p>Ce n’est <strong>pas</strong> un langage de programmation.</p></li>
+<li><p>C’est à l’origine une <strong>bibliothèque de fonctions</strong> que l’on peut appeler à
+partir du Fortran, du C ou encore du C++.</p></li>
+<li><p>C’est une <a class="reference external" href="https://www.mpi-forum.org/docs/">norme officielle</a>
+(de MPI 1.0 en 1994 à <a class="reference external" href="https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf">MPI 4.1</a>
+depuis novembre 2023).</p></li>
+<li><p>Hors norme, il existe des interfaces en d’autres langages :
+<strong>Python</strong>, R, Perl et Java.</p>
+<ul>
+<li><p>Par exemple, <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/overview.html">mpi4py</a>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="structure-dun-code-mpi">
+<h2>Structure d’un code MPI<a class="headerlink" href="#structure-dun-code-mpi" title="Lien vers cette rubrique">#</a></h2>
+<p>Dans un programme MPI, que ce soit en C, en Fortran ou en Python :</p>
+<ul class="simple">
+<li><p>On doit d’abord <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Init.html">initialiser l’environnement d’exécution</a>.
+Avec la bibliothèque <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, il suffit d’importer le module <code class="docutils literal notranslate"><span class="pre">MPI</span></code>.</p></li>
+<li><p>Avant la fin du programme, on doit <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Finalize.html">terminer l’environnement d’exécution</a>
+en appelant la fonction <code class="docutils literal notranslate"><span class="pre">MPI.Finalize()</span></code>.</p></li>
+<li><p>Tous les autres appels à MPI doivent se faire entre les opérations ci-dessus.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpi4py</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPI</span>  <span class="c1"># MPI.Init() implicite</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Programme principal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Code parallèle</span>
+
+    <span class="n">MPI</span><span class="o">.</span><span class="n">Finalize</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="parallelisation-explicite">
+<h2>Parallélisation explicite<a class="headerlink" href="#parallelisation-explicite" title="Lien vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p>C’est la responsabilité de la programmeuse ou du programmeur de dire à chaque
+processus ce qu’il doit faire selon son <em>rang</em> dans la liste des processus.</p></li>
+<li><p>Chaque processus échange avec les autres les données dont ils ont besoin pour
+résoudre un problème.</p></li>
+<li><p>Un code source appelant la bibliothèque MPI utilise donc (en général) le
+concept de programme unique travaillant sur des données multiples (<em>Single
+Program, Multiple Data</em> ou SPMD).</p></li>
+</ul>
+<section id="communicateurs">
+<h3>Communicateurs<a class="headerlink" href="#communicateurs" title="Lien vers cette rubrique">#</a></h3>
+<p>Un communicateur désigne un <strong>groupe de processus</strong> pouvant communiquer
+ensemble.</p>
+<ul>
+<li><p>La majorité des fonctions MPI sont appelées avec un communicateur pour savoir
+sur quel groupe de processus agir.</p></li>
+<li><p>Avec <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, le <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.COMM_WORLD.html">communicateur par défaut</a>
+<code class="docutils literal notranslate"><span class="pre">MPI.COMM_WORLD</span></code> englobe tous les processus.</p></li>
+<li><p>Dans une utilisation plus avancée, on peut créer d’autres communicateurs.</p>
+<figure class="align-default">
+<img alt="_images/communicators.svg" class="no-scaled-link" src="_images/communicators.svg" style="height: 360px;" />
+</figure>
+</li>
+</ul>
+</section>
+<section id="nombre-de-processus-et-un-rang-unique">
+<h3>Nombre de processus et un rang unique<a class="headerlink" href="#nombre-de-processus-et-un-rang-unique" title="Lien vers cette rubrique">#</a></h3>
+<p>Pour s’orienter dans un programme parallèle donné, chaque processus dans un
+communicateur doit savoir le <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Get_size">nombre de processus impliqués</a>
+et son <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Get_rank">rang</a>
+parmi eux.</p>
+<ul>
+<li><p>Ces valeurs sont communément appelées <code class="docutils literal notranslate"><span class="pre">size</span></code>, soit la taille du
+communicateur, et <code class="docutils literal notranslate"><span class="pre">rank</span></code>, respectivement.</p></li>
+<li><p>Le rang est un identifiant entier unique dont la valeur est de <code class="docutils literal notranslate"><span class="pre">0</span></code> à
+<code class="docutils literal notranslate"><span class="pre">size-1</span></code> inclusivement.</p></li>
+<li><p>Avec <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> et le communicateur par défaut, voici comment obtenir les
+valeurs de <code class="docutils literal notranslate"><span class="pre">rank</span></code> et <code class="docutils literal notranslate"><span class="pre">size</span></code> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>En cas de conflit de nom avec une autre variable <code class="docutils literal notranslate"><span class="pre">size</span></code> dans votre code,
+vous pouvez utiliser <code class="docutils literal notranslate"><span class="pre">nranks</span></code> à la place.</p>
+</div>
+<p>Dans le fichier <code class="docutils literal notranslate"><span class="pre">~/mpi201-main/lab/bonjour/bonjour.py</span></code>,
+on a l’exemple suivant :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpi4py</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPI</span>  <span class="c1"># MPI.Init() implicite</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Programme principal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
+    <span class="n">nranks</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ici le processus </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1"> de </span><span class="si">{</span><span class="n">nranks</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">MPI</span><span class="o">.</span><span class="n">Finalize</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environnement-requis-pour-utiliser-mpi">
+<h2>Environnement requis pour utiliser MPI<a class="headerlink" href="#environnement-requis-pour-utiliser-mpi" title="Lien vers cette rubrique">#</a></h2>
+<p>Pour utiliser MPI en Python, il faut deux modules :</p>
+<ul>
+<li><p>Un module permettant de compiler et d’exécuter un programme MPI est chargé
+par défaut (<code class="docutils literal notranslate"><span class="pre">openmpi</span></code>). Pour voir tous les modules chargés :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 ~]$ </span>module<span class="w"> </span>list
+
+<span class="go">Currently Loaded Modules:</span>
+<span class="go">  1) CCconfig            6) ucx/1.14.1            11) flexiblas/3.3.1</span>
+<span class="go">  2) gentoo/2023   (S)   7) libfabric/1.18.0      12) blis/0.9.0</span>
+<span class="go">  3) gcccore/.12.3 (H)   8) pmix/4.2.4            13) StdEnv/2023     (S)</span>
+<span class="go">  4) gcc/12.3      (t)   9) ucc/1.2.0</span>
+<span class="hll"><span class="go">  5) hwloc/2.9.1        10) openmpi/4.1.5    (m)</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Un module <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> est aussi requis, mais il n’est pas chargé par défaut.
+On peut chercher une version adéquate avec la commande <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">spider</span></code> :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 ~]$ </span>module<span class="w"> </span>spider<span class="w"> </span>mpi4py
+
+<span class="go">-------------------------------------------------------------------------</span>
+<span class="go">  mpi4py:</span>
+<span class="go">-------------------------------------------------------------------------</span>
+<span class="go">    Versions:</span>
+<span class="go">        mpi4py/3.0.3</span>
+<span class="go">        mpi4py/3.1.2</span>
+<span class="go">        mpi4py/3.1.3</span>
+<span class="go">        mpi4py/3.1.4</span>
+<span class="go">        mpi4py/3.1.4 (E)</span>
+<span class="go">        mpi4py/3.1.6</span>
+<span class="go">        mpi4py/4.0.0</span>
+<span class="hll"><span class="go">        mpi4py/4.0.3</span>
+</span></pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 ~]$ </span>module<span class="w"> </span>spider<span class="w"> </span>mpi4py/4.0.3
+
+<span class="go">-------------------------------------------------------------------------</span>
+<span class="go">  mpi4py: mpi4py/4.0.3</span>
+<span class="go">-------------------------------------------------------------------------</span>
+<span class="go">    Description:</span>
+<span class="go">      MPI for Python (mpi4py) provides bindings of the Message Passing</span>
+<span class="go">      Interface (MPI) standard for the Python programming language,</span>
+<span class="go">      allowing any Python program to exploit multiple processors.</span>
+
+<span class="go">    Properties:</span>
+<span class="go">      Tools for development / Outils de développement</span>
+
+<span class="go">    You will need to load all module(s) on any one of the lines below</span>
+<span class="go">    before the &quot;mpi4py/4.0.3&quot; module is available to load.</span>
+
+<span class="hll"><span class="go">      StdEnv/2023  gcc/12.3  openmpi/4.1.5</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Puisque nous avons déjà toutes les dépendances requises, nous pouvons ensuite
+charger <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> dans l’environnement. Note : un module Python sera chargé
+automatiquement.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 ~]$ </span>module<span class="w"> </span>load<span class="w"> </span>mpi4py/4.0.3
+<span class="gp">[alice@narval1 ~]$ </span>module<span class="w"> </span>list
+
+<span class="go">Currently Loaded Modules:</span>
+<span class="go">  1) CCconfig            6) ucx/1.14.1            11) flexiblas/3.3.1</span>
+<span class="go">  2) gentoo/2023   (S)   7) libfabric/1.18.0      12) blis/0.9.0</span>
+<span class="go">  3) gcccore/.12.3 (H)   8) pmix/4.2.4            13) StdEnv/2023     (S)</span>
+<span class="hll"><span class="go">  4) gcc/12.3      (t)   9) ucc/1.2.0             14) python/3.11.5   (t)</span>
+</span><span class="hll"><span class="go">  5) hwloc/2.9.1        10) openmpi/4.1.5    (m)  15) mpi4py/4.0.3    (t)</span>
+</span></pre></div>
+</div>
+</li>
+</ul>
+<section id="compilation-dun-programme-mpi">
+<h3>Compilation d’un programme MPI<a class="headerlink" href="#compilation-dun-programme-mpi" title="Lien vers cette rubrique">#</a></h3>
+<p>Alors qu’un programme en C ou en Fortran requiert une <a class="reference external" href="https://docs.alliancecan.ca/wiki/MPI/fr#Cadre_d'ex%C3%A9cution">compilation</a> avant de
+pouvoir exécuter le programme, un script en Python est compilé lors de son
+exécution.</p>
+</section>
+<section id="lancement-dun-programme-mpi">
+<h3>Lancement d’un programme MPI<a class="headerlink" href="#lancement-dun-programme-mpi" title="Lien vers cette rubrique">#</a></h3>
+<p>Le lancement d’un programme MPI se fait typiquement à l’aide d’une commande
+<code class="docutils literal notranslate"><span class="pre">mpirun</span></code> ou <code class="docutils literal notranslate"><span class="pre">mpiexec</span></code>. Par exemple :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mpiexec -n 120 python script.py</span>
+</pre></div>
+</div>
+<p>La commande ci-dessus lancerait 120 processus identiques, chacun exécutant
+<code class="docutils literal notranslate"><span class="pre">python</span></code> sur un processeur. Avec l’ordonnanceur <a class="reference external" href="https://slurm.schedmd.com/">Slurm</a>, nous allons plutôt utiliser la commande
+<code class="docutils literal notranslate"><span class="pre">srun</span></code>. Par exemple :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 ~]$ </span>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>hostname
+<span class="go">compute-node2</span>
+<span class="go">compute-node2</span>
+<span class="go">compute-node2</span>
+<span class="go">compute-node2</span>
+<span class="go">compute-node2</span>
+<span class="go">compute-node1</span>
+<span class="go">compute-node1</span>
+<span class="go">compute-node1</span>
+<span class="go">compute-node1</span>
+<span class="go">compute-node1</span>
+</pre></div>
+</div>
+</section>
+<section id="exercice-1-premier-lancement">
+<h3>Exercice #1 - Premier lancement<a class="headerlink" href="#exercice-1-premier-lancement" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Objectif</strong> : exécuter un premier code MPI.</p>
+<p><strong>Instructions</strong></p>
+<ol class="arabic">
+<li><p>Allez dans le répertoire de l’exercice avec la commande
+<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/mpi201-main/lab/bonjour</span></code>.</p></li>
+<li><p>Validez les modules et chargez les modules manquants, au besoin :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 bonjour]$ </span>module<span class="w"> </span>list
+<span class="gp">[alice@narval1 bonjour]$ </span>module<span class="w"> </span>load<span class="w"> </span>mpi4py/4.0.3
+</pre></div>
+</div>
+</li>
+<li><p>Avec <code class="docutils literal notranslate"><span class="pre">srun</span></code>, lancez 4 processus <code class="docutils literal notranslate"><span class="pre">python</span></code> avec le script <code class="docutils literal notranslate"><span class="pre">bonjour.py</span></code> :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">[alice@narval1 bonjour]$ </span>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>python<span class="w"> </span>bonjour.py
+<span class="go">Ici le processus 3 de 4</span>
+<span class="go">Ici le processus 2 de 4</span>
+<span class="go">Ici le processus 0 de 4</span>
+<span class="go">Ici le processus 1 de 4</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tel que vu dans cet exercice, l’ordre d’affichage des résultats peut varier
+à cause de l’exécution des différents processus en simultané : leur durée
+peut varier et le système d’exploitation peut parfois favoriser légèrement
+certains processus.</p>
+</div>
+</section>
+</section>
+<section id="les-communications-via-mpi">
+<h2>Les communications via MPI<a class="headerlink" href="#les-communications-via-mpi" title="Lien vers cette rubrique">#</a></h2>
+<p>Voici quelques informations à savoir avant de programmer toute communication.</p>
+<ul class="simple">
+<li><p><strong>Les types de données</strong></p>
+<ul>
+<li><p>La bibliothèque <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> <a class="reference external" href="https://fr.wikipedia.org/wiki/S%C3%A9rialisation">sérialise</a> automatiquement tout
+objet et envoie simplement un vecteur d’octets.</p></li>
+<li><p>À la réception d’un message, l’objet est reconstitué.</p></li>
+<li><p>La gestion des types se fait donc automatiquement.</p></li>
+</ul>
+</li>
+<li><p><strong>Les types de communications</strong></p>
+<ul>
+<li><p><a class="reference internal" href="point-a-point.html"><span class="doc">Point-à-point</span></a> : deux processus d’un même
+communicateur communiquent au moyen d’un envoi et d’une réception.</p></li>
+<li><p><a class="reference internal" href="collectives.html"><span class="doc">Collectives</span></a> : tous les processus d’un même
+communicateur appellent la même fonction et communiquent ensemble.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="point-a-point.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Communications point-à-point</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quest-ce-que-mpi">Qu’est-ce que MPI?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-dun-code-mpi">Structure d’un code MPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelisation-explicite">Parallélisation explicite</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communicateurs">Communicateurs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nombre-de-processus-et-un-rang-unique">Nombre de processus et un rang unique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environnement-requis-pour-utiliser-mpi">Environnement requis pour utiliser MPI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compilation-dun-programme-mpi">Compilation d’un programme MPI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lancement-dun-programme-mpi">Lancement d’un programme MPI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercice-1-premier-lancement">Exercice #1 - Premier lancement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-communications-via-mpi">Les communications via MPI</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par Calcul Québec
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Calcul Québec.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

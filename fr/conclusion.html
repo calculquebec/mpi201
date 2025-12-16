@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Conclusion &#8212; MPI201</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=72dce1d2"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/translations.js?v=e6b791cb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'conclusion';</script>
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Aide-mémoire" href="aide-memoire.html" />
+    <link rel="prev" title="Communications collectives" href="collectives.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Programmation parallèle avec MPI4py (MPI201)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapitres</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpi.html">Premiers pas avec MPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point-a-point.html">Communications point-à-point</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collectives.html">Communications collectives</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conclusion</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Référence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="aide-memoire.html">Aide-mémoire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliographie.html">Bibliographie</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Liens externes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.alliancecan.ca/wiki/Technical_documentation/fr">Documentation technique de l’Alliance</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.calculquebec.ca/services-aux-chercheurs/formation/">Formations de Calcul Québec</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/conclusion.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Conclusion</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpi-dans-les-autres-langages">MPI dans les autres langages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defis-de-parallelisation-supplementaires">Défis de parallélisation supplémentaires</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-notions-avancees">Bonus - Notions avancées</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Lien vers cette rubrique">#</a></h1>
+<p><a class="reference external" href="../en/conclusion.html">English</a></p>
+<p>Rappel de quelques concepts du parallélisme :</p>
+<ul class="simple">
+<li><p>Communications et synchronisations</p>
+<ul>
+<li><p>Dépendances entre processeurs</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://docs.alliancecan.ca/wiki/Scalability/fr">Scalabilité</a> et
+<a class="reference external" href="https://fr.wikipedia.org/wiki/Loi_d%27Amdahl">loi d’Amdahl</a></p>
+<ul>
+<li><p>Granularité - quantité minimale de travail à faire de manière autonome</p></li>
+<li><p>Répartition de la charge</p></li>
+</ul>
+</li>
+</ul>
+<section id="mpi-dans-les-autres-langages">
+<h2>MPI dans les autres langages<a class="headerlink" href="#mpi-dans-les-autres-langages" title="Lien vers cette rubrique">#</a></h2>
+<ul>
+<li><p>C et Fortran : le standard MPI est déjà défini dans ces langages.</p></li>
+<li><p>C++ :</p>
+<ul class="simple">
+<li><p>MPI 3.0 a éliminé les interfaces C++.</p></li>
+<li><p><a class="reference external" href="https://www.boost.org/doc/libs/release/libs/mpi/">Boost MPI</a> :
+bibliothèque pratique et très puissante pour les développeurs en C++.</p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=U0axIKTO3wM">Midi-conférence Boost-MPI</a>.</p></li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">boost</span><span class="o">::</span><span class="n">mpi</span><span class="o">::</span><span class="n">environment</span><span class="w"> </span><span class="nf">env</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="n">boost</span><span class="o">::</span><span class="n">mpi</span><span class="o">::</span><span class="n">communicator</span><span class="w"> </span><span class="n">world</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world</span><span class="p">.</span><span class="n">rank</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">world</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">mpi</span><span class="o">::</span><span class="n">any_source</span><span class="p">,</span><span class="w"> </span><span class="mi">746</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="defis-de-parallelisation-supplementaires">
+<h2>Défis de parallélisation supplémentaires<a class="headerlink" href="#defis-de-parallelisation-supplementaires" title="Lien vers cette rubrique">#</a></h2>
+<p>Les codes suivants fonctionnent déjà en mode séquentiel.
+C’est maintenant à vous de les paralléliser avec MPI :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/calculquebec/cq-formation-convolution/tree/main/defi-mpi">Convolution sur une image</a></p></li>
+<li><p><a class="reference external" href="https://github.com/calculquebec/cq-formation-ecoulement-chaleur">Écoulement de chaleur</a></p></li>
+<li><p><a class="reference external" href="https://github.com/calculquebec/cq-formation-nbody">Problème à N corps</a></p></li>
+</ul>
+<p>Pour mesurer le temps d’exécution d’un programme, la commande <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">srun</span></code>
+doit être dans un <a class="reference external" href="https://docs.alliancecan.ca/wiki/Running_jobs/fr#T.C3.A2che_MPI">script de tâche</a>
+soumis avec la commande <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --ntasks=4</span>
+<span class="c1">#SBATCH … # temps, mémoire, etc.</span>
+
+<span class="nb">time</span><span class="w"> </span>srun<span class="w"> </span>./programme
+</pre></div>
+</div>
+</section>
+<section id="bonus-notions-avancees">
+<h2>Bonus - Notions avancées<a class="headerlink" href="#bonus-notions-avancees" title="Lien vers cette rubrique">#</a></h2>
+<p>La bibliothèque <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> possède d’autres fonctionnalités :</p>
+<ul class="simple">
+<li><p>Communications avec des tableaux NumPy.</p>
+<ul>
+<li><p>Ce sont les méthodes débutant par une majuscule (<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/tutorial.html">voir le tutoriel</a>).</p></li>
+<li><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Send">MPI.Comm.Send</a>,
+<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Recv">MPI.Comm.Recv</a></p></li>
+<li><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Isend">MPI.Comm.Isend</a>,
+<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Irecv">MPI.Comm.Irecv</a></p></li>
+<li><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Bcast">MPI.Comm.Bcast</a>,
+<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatter">MPI.Comm.Scatter</a>,
+<a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gather">MPI.Comm.Gather</a></p></li>
+</ul>
+</li>
+<li><p>Communications collectives avec des portions inégales.</p>
+<ul>
+<li><p>Les fonctions de communication collective vues jusqu’ici envoyaient un même
+nombre d’éléments pour chaque processus MPI.</p></li>
+<li><p>Avec <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, les tableaux NumPy peuvent être divisés ou reconstruits
+avec un nombre différent de valeurs pour chaque processus :</p>
+<ul>
+<li><p>Avec <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatterv">MPI.Comm.Scatterv</a>
+et <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gatherv">MPI.Comm.Gatherv</a>.</p></li>
+<li><p>Ces méthodes ne tiennent pas automatiquement compte du stockage interne
+des tableaux NumPy, mais seulement de la séquence contiguë de données en
+mémoire. Il faut donc planifier le stockage interne du tableau NumPy :
+en mode <em>C</em>, les valeurs d’une matrice 2D sont stockées ligne par ligne,
+alors qu’en mode <em>Fortran</em> elles sont stockées colonne par colonne.</p>
+<ul>
+<li><p>Pour plus d’information, voir les <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.strides.html">strides</a>.</p></li>
+</ul>
+</li>
+<li><p>Voir <a class="reference external" href="https://github.com/calculquebec/mpi201/tree/main/lab/scatterv">les exemples</a>
+dans <code class="docutils literal notranslate"><span class="pre">~/mpi201-main/lab/scatterv</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="collectives.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Communications collectives</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="aide-memoire.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Aide-mémoire</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpi-dans-les-autres-langages">MPI dans les autres langages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defis-de-parallelisation-supplementaires">Défis de parallélisation supplémentaires</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-notions-avancees">Bonus - Notions avancées</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par Calcul Québec
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Calcul Québec.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
