@@ -107,5 +107,5 @@ La bibliothèque ``mpi4py`` possède d’autres fonctionnalités :
         <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.strides.html>`__.
 
     - Voir `les exemples
-      <https://github.com/calculquebec/cq-formation-mpi201/tree/main/lab/scatterv>`__
-      dans ``~/cq-formation-mpi201-main/lab/scatterv``.
+      <https://github.com/calculquebec/mpi201/tree/main/lab/scatterv>`__
+      dans ``~/mpi201-main/lab/scatterv``.

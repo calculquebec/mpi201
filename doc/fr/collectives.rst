@@ -173,7 +173,7 @@ ensuite concaténés horizontalement pour former la matrice résultante :math:`C
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/cq-formation-mpi201-main/lab/mat_mul``.
+   ``cd ~/mpi201-main/lab/mat_mul``.
 #. Dans le fichier ``mat_mul.py``, éditez les lignes avec des ``...``.
    Essentiellement, le processus racine :
 
@@ -347,7 +347,7 @@ significatifs du résultat final.
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/cq-formation-mpi201-main/lab/pi``.
+   ``cd ~/mpi201-main/lab/pi``.
 #. Dans le fichier ``pi-sauts.py``, complétez la conversion du programme sériel
    en programme utilisant MPI.
 

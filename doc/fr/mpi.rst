@@ -109,7 +109,7 @@ parmi eux.
     En cas de conflit de nom avec une autre variable ``size`` dans votre code,
     vous pouvez utiliser ``nranks`` à la place.
 
-Dans le fichier ``~/cq-formation-mpi201-main/lab/bonjour/bonjour.py``,
+Dans le fichier ``~/mpi201-main/lab/bonjour/bonjour.py``,
 on a l’exemple suivant :
 
 .. code-block:: python
@@ -256,7 +256,7 @@ Exercice #1 - Premier lancement
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/cq-formation-mpi201-main/lab/bonjour``.
+   ``cd ~/mpi201-main/lab/bonjour``.
 #. Validez les modules et chargez les modules manquants, au besoin :
 
    .. code-block:: console

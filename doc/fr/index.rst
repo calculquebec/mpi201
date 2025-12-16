@@ -55,7 +55,7 @@ Table des matières
 
     Si vous suivez cet atelier par vous-même, vous pouvez télécharger
     `les fichiers nécessaires
-    <https://github.com/calculquebec/cq-formation-mpi201>`__ et réaliser les
+    <https://github.com/calculquebec/mpi201>`__ et réaliser les
     exercices sur n’importe quelle grappe de Calcul Québec ou de l’Alliance de
     recherche numérique du Canada. Le temps d’attente pour l’exécution des
     tâches sera toutefois plus long que sur la plateforme infonuagique.

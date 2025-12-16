@@ -75,7 +75,7 @@ Exercice #2 - Envoi d’une matrice
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/cq-formation-mpi201-main/lab/send_matrix``.
+   ``cd ~/mpi201-main/lab/send_matrix``.
 #. Éditez le fichier ``send_matrix.py`` pour programmer le transfert de la
    matrice.
 #. Lancez ce programme avec deux (2) processus.
@@ -134,7 +134,7 @@ Exercice #3 - Échange de vecteurs
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/cq-formation-mpi201-main/lab/exchange``.
+   ``cd ~/mpi201-main/lab/exchange``.
 #. Éditez le fichier ``exchange.py`` pour programmer l’échange de données.
 #. Lancez ce programme avec deux (2) processus.
 

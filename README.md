@@ -1,6 +1,6 @@
 # Matériel pour la formation MPI201
 
-[Site Web](https://calculquebec.github.io/cq-formation-mpi201/)
+[Site Web](https://calculquebec.github.io/mpi201/)
 
 Dépendances Python 3.10+ :
 
