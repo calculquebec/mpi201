@@ -10,6 +10,9 @@ Dépendances Python 3.10+ :
 ## Installation locale et compilation
 
 ```Bash
+# Python >=3.12
+pip install sphinx==9.1.0 sphinx-intl sphinx-book-theme
+# Python 3.11
 pip install sphinx==8.1.3 sphinx-intl sphinx-book-theme==1.1.3
 
 cd doc
