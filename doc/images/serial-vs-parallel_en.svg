@@ -8,7 +8,7 @@
    stroke-miterlimit="10"
    id="svg151"
    sodipodi:docname="serial-vs-parallel_en.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    width="544.28064"
    height="343.48065"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -1105,17 +1105,17 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="2"
-     inkscape:cx="204.75"
-     inkscape:cy="137.75"
-     inkscape:window-width="2560"
-     inkscape:window-height="1351"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:zoom="1.4195288"
+     inkscape:cx="204.64537"
+     inkscape:cy="137.72176"
+     inkscape:window-width="1920"
+     inkscape:window-height="1126"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg151" />
   <path
-     style="fill:none;stroke:#000103;stroke-width:1;stroke-dasharray:4,8;stroke-opacity:1;stroke-dashoffset:0"
+     style="fill:none;stroke:#000103;stroke-width:1.88976;stroke-dasharray:1.88976002,5.66928005;stroke-opacity:1;stroke-dashoffset:0"
      d="M 25.669657,28.515211 H 524.602 V 316.488"
      id="path2832" />
   <path
@@ -1381,8 +1381,8 @@
        x="396.45523"
        y="255.3223">Parallel</tspan></text>
   <path
-     style="fill:none;stroke:#7f6000;stroke-width:1.86805;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart)"
-     d="M 25.654828,316.50283 518.8548,31.838638"
+     style="fill:none;stroke:#7f6000;stroke-width:1.88976;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart)"
+     d="M 25.669657,316.488 524.602,28.515211"
      id="path630"
      sodipodi:nodetypes="cc" />
   <path
@@ -1444,12 +1444,12 @@
      id="path2755-5-2-2"
      sodipodi:nodetypes="cc" />
   <path
-     style="fill:none;stroke:#1155cc;stroke-width:3.5635;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker4711)"
-     d="m 195.52493,65.89143 h 16.64468 L 270.4836,30.753398"
+     style="fill:none;stroke:#1155cc;stroke-width:3.77953;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker4711)"
+     d="m 195.63294,65.783415 h 17.65374 l 61.84915,-37.268204"
      id="path4397"
      sodipodi:nodetypes="ccc" />
   <path
-     style="fill:none;stroke:#000103;stroke-width:1.94139;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1844);marker-end:url(#marker2070)"
-     d="M 25.829473,20.000000 V 316.33094 H 537.38755"
+     style="fill:none;stroke:#000103;stroke-width:1.88976378;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#marker1844);marker-end:url(#marker2070)"
+     d="M 25.669657,28.515211 V 316.488 H 524.64594"
      id="path897" />
 </svg>

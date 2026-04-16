@@ -4,7 +4,7 @@ Introduction
 `English <../en/1-introduction.html>`_
 
 Il existe deux grandes catégories de tâches de calcul qui travaillent
-sur un même problème : les tâches sérielles et les tâches parallèles.
+sur un même problème : les tâches séquentielles et les tâches parallèles.
 
 .. figure:: ../images/serial-vs-parallel_fr.svg
 

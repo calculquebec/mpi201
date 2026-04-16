@@ -348,8 +348,8 @@ significatifs du résultat final.
 
 #. Allez dans le répertoire de l’exercice avec la commande
    ``cd ~/mpi201-main/lab/pi``.
-#. Dans le fichier ``pi-sauts.py``, complétez la conversion du programme sériel
-   en programme utilisant MPI.
+#. Dans le fichier ``pi-sauts.py``, complétez la conversion du programme
+   séquentiel en programme utilisant MPI.
 
    #. Utilisez la stratégie qui consiste à **faire des sauts** de ``nranks``
       dans une boucle débutant à une valeur de ``k`` qui dépend de ``rank``.
@@ -357,8 +357,8 @@ significatifs du résultat final.
    #. Lancez le programme avec deux (2), trois (3) et quatre (4) processus et
       observez la précision de l’approximation de pi.
 
-#. Dans le fichier ``pi-blocs.py``, complétez la conversion du programme sériel
-   en programme utilisant MPI.
+#. Dans le fichier ``pi-blocs.py``, complétez la conversion du programme
+   séquentiel en programme utilisant MPI.
 
    #. Utilisez la stratégie qui consiste à **boucler d’une borne supérieure à
       une borne inférieure**.
