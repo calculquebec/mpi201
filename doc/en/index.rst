@@ -16,6 +16,7 @@ Parallel Programming with MPI4py
     3-point-to-point
     4-collectives
     5-conclusion
+    8-appendix
 
 .. toctree::
     :caption: Reference

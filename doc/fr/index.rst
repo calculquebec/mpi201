@@ -71,6 +71,7 @@ Table des matières
     3-point-a-point
     4-collectives
     5-conclusion
+    8-annexes
 
 .. toctree::
     :caption: Référence
