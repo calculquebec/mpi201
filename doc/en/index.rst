@@ -11,11 +11,11 @@ Parallel Programming with MPI4py
     :titlesonly:
     :hidden:
 
-    introduction
-    mpi
-    point-to-point
-    collectives
-    conclusion
+    1-introduction
+    2-mpi
+    3-point-to-point
+    4-collectives
+    5-conclusion
 
 .. toctree::
     :caption: Reference
@@ -23,8 +23,8 @@ Parallel Programming with MPI4py
     :titlesonly:
     :hidden:
 
-    cheatsheet
-    bibliography
+    90-cheatsheet
+    99-bibliography
 
 .. toctree::
     :caption: External links
