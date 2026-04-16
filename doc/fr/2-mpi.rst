@@ -296,7 +296,7 @@ Voici quelques informations à savoir avant de programmer toute communication.
 
 - **Les types de communications**
 
-  - :doc:`Point-à-point <point-a-point>` : deux processus d’un même
+  - :doc:`Point-à-point <3-point-a-point>` : deux processus d’un même
     communicateur communiquent au moyen d’un envoi et d’une réception.
-  - :doc:`Collectives <collectives>` : tous les processus d’un même
+  - :doc:`Collectives <4-collectives>` : tous les processus d’un même
     communicateur appellent la même fonction et communiquent ensemble.

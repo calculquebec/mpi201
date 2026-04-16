@@ -15,13 +15,13 @@ Programmation parallèle avec MPI4py
 Table des matières
 ------------------
 
-#. :doc:`introduction`
+#. :doc:`1-introduction`
 
    #. Machine à mémoire distribuée
    #. Des questions à se poser
    #. Stratégies de division du calcul
 
-#. :doc:`mpi`
+#. :doc:`2-mpi`
 
    #. Qu’est-ce que MPI?
    #. Structure d’un code MPI
@@ -29,18 +29,18 @@ Table des matières
    #. Environnement requis pour utiliser MPI
    #. Les communications via MPI
 
-#. :doc:`point-a-point`
+#. :doc:`3-point-a-point`
 
    #. Envois et réceptions de données
    #. Éviter les situations d’interblocage
    #. Communications non bloquantes
 
-#. :doc:`collectives`
+#. :doc:`4-collectives`
 
    #. Déplacements de données
    #. Calculs collectifs
 
-#. :doc:`conclusion`
+#. :doc:`5-conclusion`
 
    #. MPI dans les autres langages
    #. Défis de parallélisation supplémentaires
@@ -66,11 +66,11 @@ Table des matières
     :titlesonly:
     :hidden:
 
-    introduction
-    mpi
-    point-a-point
-    collectives
-    conclusion
+    1-introduction
+    2-mpi
+    3-point-a-point
+    4-collectives
+    5-conclusion
 
 .. toctree::
     :caption: Référence
@@ -78,8 +78,8 @@ Table des matières
     :titlesonly:
     :hidden:
 
-    aide-memoire
-    bibliographie
+    90-aide-memoire
+    99-bibliographie
 
 .. toctree::
     :caption: Liens externes
