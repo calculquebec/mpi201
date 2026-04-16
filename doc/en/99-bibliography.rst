@@ -1,6 +1,6 @@
 Bibliography
 ============
 
-`Français <../fr/bibliographie.html>`_
+`Français <../fr/99-bibliographie.html>`_
 
 *Under construction...*

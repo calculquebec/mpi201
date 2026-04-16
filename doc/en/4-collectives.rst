@@ -1,6 +1,6 @@
 Collective communications
 =========================
 
-`Français <../fr/collectives.html>`_
+`Français <../fr/4-collectives.html>`_
 
 *Under construction...*

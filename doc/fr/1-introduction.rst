@@ -1,7 +1,7 @@
 Introduction
 ============
 
-`English <../en/introduction.html>`_
+`English <../en/1-introduction.html>`_
 
 Il existe deux grandes catégories de tâches de calcul qui travaillent
 sur un même problème : les tâches sérielles et les tâches parallèles.

@@ -1,7 +1,7 @@
 Communications point-à-point
 ============================
 
-`English <../en/point-to-point.html>`_
+`English <../en/3-point-to-point.html>`_
 
 - Elles sont *locales*, c’est-à-dire que seuls **deux processus** sont
   impliqués : ils sont les seuls à appeler réciproquement des fonctions de

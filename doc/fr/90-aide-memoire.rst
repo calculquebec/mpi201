@@ -1,7 +1,7 @@
 Aide-mémoire
 ============
 
-`English <../en/cheatsheet.html>`_
+`English <../en/90-cheatsheet.html>`_
 
 .. list-table:: Gestion des processus MPI
     :header-rows: 1

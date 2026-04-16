@@ -1,7 +1,7 @@
 Communications collectives
 ==========================
 
-`English <../en/collectives.html>`_
+`English <../en/4-collectives.html>`_
 
 Les communications collectives peuvent faire :
 

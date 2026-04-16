@@ -1,6 +1,6 @@
 Cheatsheet
 ==========
 
-`Français <../fr/aide-memoire.html>`_
+`Français <../fr/90-aide-memoire.html>`_
 
 *Under construction...*

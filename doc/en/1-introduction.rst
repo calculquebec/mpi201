@@ -1,6 +1,6 @@
 Introduction
 ============
 
-`Français <../fr/introduction.html>`_
+`Français <../fr/1-introduction.html>`_
 
 *Under construction...*

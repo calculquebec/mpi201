@@ -1,7 +1,7 @@
 Bibliographie
 =============
 
-`English <../en/bibliography.html>`_
+`English <../en/99-bibliography.html>`_
 
 - Documentation en ligne :
 

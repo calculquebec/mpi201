@@ -1,7 +1,7 @@
 Premiers pas avec MPI
 =====================
 
-`English <../en/mpi.html>`_
+`English <../en/2-mpi.html>`_
 
 Qu’est-ce que MPI?
 ------------------
