@@ -157,6 +157,8 @@ en évitant l’interblocage. Par exemple :
 
     requete.wait()
 
+.. figure:: ../images/mpi_isend-2ranks.svg
+
 Communications non bloquantes
 -----------------------------
 
