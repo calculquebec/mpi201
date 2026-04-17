@@ -86,14 +86,16 @@ Espaces à deux dimensions
 
 - Dans le cas d’un calcul utilisant des données disposées en deux dimensions,
   comme des matrices ou des images, on peut diviser l’espace en partitions
-  horizontales, verticales ou en blocs.
+  horizontales, verticales ou en blocs. Par exemple, une matrice 8x8 pourrait
+  être divisée en quatre partitions similaires et un processus serait assigné
+  à chaque partition.
 
   .. figure:: ../images/parallel-array-2d.svg
 
-- Dans le cas d’un calcul utilisant des données d’un espace linéaire, mais qui
-  considère toutes les combinaisons de valeurs, on se retrouve avec un espace
-  de calcul à deux dimensions et, donc, avec les mêmes options de
-  partitionnement que dans la figure ci-dessus.
+- Dans le cas d’un calcul utilisant des données d’un espace linéaire, par
+  exemple un vecteur, mais qui calcule toutes les différentes paires de
+  valeurs, on se retrouve avec un espace de calcul à deux dimensions et, donc,
+  avec les mêmes options de partitionnement que dans la figure ci-dessus.
 
   .. figure:: ../images/parallel-comb-1dx1d.svg
 
