@@ -62,14 +62,13 @@ l’espace des itérations ou selon l’espace du modèle à calculer.
 Espaces linéaires
 '''''''''''''''''
 
-- Dans le cas de :math:`N` valeurs calculées successivement, une réduction
-  (soit une somme, un produit, etc.) de ces valeurs par des opérations à la
-  fois `associatives <https://fr.wikipedia.org/wiki/Associativit%C3%A9>`__ et
-  `commutatives <https://fr.wikipedia.org/wiki/Loi_commutative>`__ peut être
-  divisée à parts égales entre les processus avant d'être calculée dans une
-  étape finale. Par exemple, on pourrait calculer une réduction de :math:`N=12`
-  valeurs avec un opérateur de réduction ``op`` (``+`` pour une somme, ``*``
-  pour un produit) au moyen de trois processus (p0, p1 et p2).
+- Dans le cas de :math:`N` valeurs calculées successivement, le calcul d’une
+  réduction de ces valeurs, par exemple une somme ou un produit, peut être
+  divisée à parts égales entre les processus. Ensuite, le résultat de chaque
+  réduction *locale* sert à calculer la réduction globale. Par exemple, on
+  pourrait calculer une réduction de :math:`N=12` valeurs avec un opérateur
+  de réduction ``op`` (``+`` pour une somme, ``*`` pour un produit) au moyen
+  de trois processus (p0, p1 et p2).
 
   .. figure:: ../images/parallel-reduction_fr.svg
 
