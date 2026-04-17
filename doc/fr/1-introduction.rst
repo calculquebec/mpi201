@@ -62,10 +62,14 @@ l’espace des itérations ou selon l’espace du modèle à calculer.
 Espaces linéaires
 '''''''''''''''''
 
-- Dans le cas d’un calcul impliquant une réduction de termes purement
-  mathématiques (qui ne proviennent pas d’un vecteur de données), les
-  opérations peuvent être divisées également entre les processus. Par exemple,
-  estimer la constante :math:`\pi` au moyen d’une somme de milliards de termes.
+- Dans le cas de :math:`N` valeurs calculées successivement, une réduction
+  (soit une somme, un produit, etc.) de ces valeurs par des opérations à la
+  fois `associatives <https://fr.wikipedia.org/wiki/Associativit%C3%A9>`__ et
+  `commutatives <https://fr.wikipedia.org/wiki/Loi_commutative>`__ peut être
+  divisée à parts égales entre les processus avant d'être calculée dans une
+  étape finale. Par exemple, on pourrait calculer une réduction de :math:`N=12`
+  valeurs avec un opérateur de réduction ``op`` (``+`` pour une somme, ``*``
+  pour un produit) au moyen de trois processus (p0, p1 et p2).
 
   .. figure:: ../images/parallel-reduction_fr.svg
 
