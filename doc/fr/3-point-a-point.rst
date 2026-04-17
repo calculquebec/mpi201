@@ -62,9 +62,9 @@ Avec ``mpi4py``, voici une implémentation de cette communication :
 
 .. code-block:: python
 
-    if proc == 2:
+    if rank == 2:
         comm.send(a, dest=0, tag=746)
-    elif proc == 0:
+    elif rank == 0:
         b = comm.recv(source=2, tag=746)
 
 Exercice #2 - Envoi d’une matrice
@@ -88,10 +88,10 @@ Soit le code suivant :
 .. code-block:: python
     :emphasize-lines: 2,5
 
-    if proc == 0:
+    if rank == 0:
         comm.ssend(a, dest=2, tag=10)
         b = comm.recv(source=2, tag=11)
-    elif proc == 2:
+    elif rank == 2:
         comm.ssend(b, dest=0, tag=11)
         a = comm.recv(source=0, tag=10)
 
@@ -114,10 +114,10 @@ processus. Par exemple :
 .. code-block:: python
     :emphasize-lines: 5-6
 
-    if proc == 0:
+    if rank == 0:
         comm.ssend(a, dest=2, tag=10)
         b = comm.recv(source=2, tag=11)
-    elif proc == 2:
+    elif rank == 2:
         a = comm.recv(source=0, tag=10)
         comm.ssend(b, dest=0, tag=11)
 
@@ -148,10 +148,10 @@ en évitant l’interblocage. Par exemple :
 .. code-block:: python
     :emphasize-lines: 2,5,8
 
-    if proc == 0:
+    if rank == 0:
         requete = comm.isend(a, dest=2, tag=10)
         b = comm.recv(source=2, tag=11)
-    elif proc == 2:
+    elif rank == 2:
         requete = comm.isend(b, dest=0, tag=11)
         a = comm.recv(source=0, tag=10)
 
