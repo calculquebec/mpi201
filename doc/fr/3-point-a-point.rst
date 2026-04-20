@@ -187,3 +187,44 @@ suivantes :
 
 - Quand la communication a terminé, on peut réutiliser les objets transmis ou
   reçus.
+
+Voici un exemple de calcul itératif sur un tableau ``a[]`` où chaque processus
+``rank`` est responsable des valeurs aux indices de ``debut`` à ``fin - 1``
+(nous verrons plus tard comment calculer ``debut`` et ``fin``). Or, à chaque
+itération, il doit y avoir un échange des valeurs aux deux frontières :
+
+.. figure:: ../images/partition-limits_fr.svg
+   :align: right
+
+.. code-block:: python
+    :emphasize-lines: 6,9,13,14,18
+
+    req_irecv_debut_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
+    req_isend_debut = comm.isend(a[debut], dest=rank - 1, tag=0)
+    req_isend_fin_1 = comm.isend(a[fin - 1], dest=rank + 1, tag=0)
+    req_irecv_fin = comm.irecv(source=rank + 1, tag=ANY_TAG)
+
+    for iteration in range(1000):
+        a[debut - 1] = req_irecv_debut_1.wait(status=None)
+        req_isend_debut.wait()
+        a[debut] = f(a[debut - 1], a[debut], a[debut + 1])
+        req_irecv_debut_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
+        req_isend_debut = comm.isend(a[debut], dest=rank - 1, tag=0)
+
+        for i in range(debut + 1, fin - 1):  # debut + 1 ... fin - 2
+            a[i] = f(a[i - 1], a[i], a[i + 1])
+
+        req_isend_fin_1.wait()
+        a[fin] = req_irecv_fin.wait(status=None)
+        a[fin - 1] = f(a[fin - 2], a[fin - 1], a[fin])
+        req_isend_fin_1 = comm.isend(a[fin - 1], dest=rank + 1, tag=0)
+        req_irecv_fin = comm.irecv(source=rank + 1, tag=ANY_TAG)
+
+    a[debut - 1] = req_irecv_debut_1.wait(status=None)
+    req_isend_debut.wait()
+    req_isend_fin_1.wait()
+    a[fin] = req_irecv_fin.wait(status=None)
+
+L’utilisation des communications non bloquantes permet d’effectuer différentes
+opérations pendant ces nombreuses communications, ce qui diminue l’impact des
+communications sur l’efficacité du calcul parallèle.
