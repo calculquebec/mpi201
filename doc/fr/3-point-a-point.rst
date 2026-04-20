@@ -138,6 +138,9 @@ Exercice #3 - Échange de vecteurs
 #. Éditez le fichier ``exchange.py`` pour programmer l’échange de données.
 #. Lancez ce programme avec deux (2) processus.
 
+.. figure:: ../images/mpi_isend-2ranks.svg
+    :align: right
+
 Solution 2
 ''''''''''
 
@@ -156,8 +159,6 @@ en évitant l’interblocage. Par exemple :
         a = comm.recv(source=0, tag=10)
 
     requete.wait()
-
-.. figure:: ../images/mpi_isend-2ranks.svg
 
 Communications non bloquantes
 -----------------------------
