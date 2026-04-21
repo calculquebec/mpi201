@@ -83,6 +83,9 @@ Exercice #2 - Envoi d’une matrice
 Éviter les situations d’interblocage
 ------------------------------------
 
+.. figure:: ../images/mpi_ssend-2ranks.svg
+    :align: right
+
 Soit le code suivant :
 
 .. code-block:: python
