@@ -85,6 +85,7 @@ Exercice #2 - Envoi d’une matrice
 
 .. figure:: ../images/mpi_ssend-2ranks.svg
     :align: right
+    :width: 360px
 
 Soit le code suivant :
 
@@ -110,6 +111,10 @@ Soit le code suivant :
 
 Solution 1
 ''''''''''
+
+.. figure:: ../images/mpi_ssend-recv.svg
+    :align: right
+    :width: 360px
 
 On change l’ordre des appels à ``ssend()`` et ``recv()`` pour un des deux
 processus. Par exemple :
@@ -141,11 +146,12 @@ Exercice #3 - Échange de vecteurs
 #. Éditez le fichier ``exchange.py`` pour programmer l’échange de données.
 #. Lancez ce programme avec deux (2) processus.
 
-.. figure:: ../images/mpi_isend-2ranks.svg
-    :align: right
-
 Solution 2
 ''''''''''
+
+.. figure:: ../images/mpi_isend-2ranks.svg
+    :align: right
+    :width: 360px
 
 On utilise des communications non bloquantes pour démarrer les transferts.
 Ainsi, même si l’envoi n’est pas terminé, on peut commencer la réception tout
@@ -162,6 +168,9 @@ en évitant l’interblocage. Par exemple :
         a = comm.recv(source=0, tag=10)
 
     requete.wait()
+
+En plus de débloquer les deux processus, cette solution permet de reprendre les
+calculs plus hâtivement.
 
 Communications non bloquantes
 -----------------------------
