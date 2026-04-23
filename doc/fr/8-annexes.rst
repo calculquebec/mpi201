@@ -3,6 +3,41 @@ Annexes
 
 `English <../en/8-appendix.html>`_
 
+Autres communications collectives
+---------------------------------
+
+Regroupement à tous avec ``allgather``
+''''''''''''''''''''''''''''''''''''''
+
+C’est l’équivalent de ``gather`` + ``bcast``, mais en `plus efficace
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allgather>`__ :
+
+.. figure:: ../images/mpi_allgather_fr.svg
+
+Avec ``mpi4py``, on aurait le code suivant :
+
+.. code-block:: python
+
+    # allgather(envoi: Any) -> list[Any]
+
+    b = comm.allgather(a)
+
+Transposition globale avec ``alltoall``
+'''''''''''''''''''''''''''''''''''''''
+
+C’est l’équivalent de ``scatter`` * ``gather``, mais en `plus efficace
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.alltoall>`__ :
+
+.. figure:: ../images/mpi_alltoall_fr.svg
+
+Avec ``mpi4py``, on aurait le code suivant :
+
+.. code-block:: python
+
+    # alltoall(envoi: Sequence[Any]) -> list[Any]
+
+    b = comm.alltoall(a)
+
 Notions avancées
 ----------------
 
