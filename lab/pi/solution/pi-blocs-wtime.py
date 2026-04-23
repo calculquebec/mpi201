@@ -16,6 +16,9 @@ def main():
     rank = comm.Get_rank()
     nranks = comm.Get_size()
 
+    if rank == 0:
+        t1 = MPI.Wtime()
+
     somme = 0.0;
 
     borne_inf = rank * N // nranks
@@ -27,8 +30,10 @@ def main():
     pi = comm.reduce(somme, MPI.SUM, 0)
 
     if rank == 0:
+        t2 = MPI.Wtime()
         print(f'PI est approximativement {pi:.16f},',
               f'avec une différence de {abs(pi - math.pi):.16f}')
+        print(f'Temps = {t2 - t1:.6f} sec')
 
     MPI.Finalize()
 
