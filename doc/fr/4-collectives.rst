@@ -382,21 +382,3 @@ significatifs du résultat final.
    #. Programmez une réduction des ``somme`` dans la variable ``pi``.
    #. Lancez le programme avec deux (2), trois (3) et quatre (4) processus et
       observez la précision de l’approximation de pi.
-
-#. Éditez à nouveau ``pi-blocs.py`` de sorte à mesurer le temps du calcul
-   parallèle. Voici un exemple où seul le processus racine mesure le temps
-   écoulé :
-
-   .. code-block:: python
-
-      if rank == 0:
-          t1 = MPI.Wtime()
-
-      # Calcul parallèle et communications
-
-      if rank == 0:
-          t2 = MPI.Wtime()
-          print(f'Temps = {t2 - t1:.6f} sec')
-
-   #. Lancez le programme avec deux (2), quatre (4) et huit (8) processus et
-      observez le temps de calcul mesuré.

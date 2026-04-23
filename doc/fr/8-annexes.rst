@@ -38,6 +38,26 @@ Avec ``mpi4py``, on aurait le code suivant :
 
     b = comm.alltoall(a)
 
+Mesure du temps écoulé avec ``MPI.Wtime()``
+-------------------------------------------
+
+Pour mesurer précisément le temps écoulé pendant l’exécution d’une partie du
+code Python, on peut utiliser la fonction ``MPI.Wtime()`` qui retourne le temps
+actuel en secondes en type ``float``. Pour calculer un temps écoulé, il suffit
+d’appeler la fonction deux fois et de calculer la différence des valeurs
+retournées. Typiquement, un seul processus effectue ce calcul.
+
+.. code-block:: python
+
+    if rank == 0:
+        t1 = MPI.Wtime()
+
+    # Calcul parallèle et communications
+
+    if rank == 0:
+        t2 = MPI.Wtime()
+        print(f'Temps = {t2 - t1:.6f} sec')
+
 Notions avancées
 ----------------
 
