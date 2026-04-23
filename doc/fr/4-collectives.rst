@@ -132,29 +132,79 @@ travail. On se rappelle cette figure vue en
 .. figure:: ../images/parallel-array-2d.svg
 
 Une première stratégie consiste à diviser l’espace de travail en portions plus
-ou moins égales **selon une dimension**.
+ou moins égales **selon une dimension**. L’objectif est de déterminer à quel
+indice un processus débutera son calcul et jusqu’à quel indice (exclus) il doit
+calculer.
 
-- Or, puisque la taille ``N`` d’une dimension n’est pas nécessairement un
-  multiple entier de ``nranks``, on ne peut pas faire une division entière de
-  ``N`` par ``nranks`` pour définir une taille unique de portion. On risquerait
-  alors d’oublier des éléments à calculer.
-- Par contre, on peut utiliser ``rank`` et ``rank + 1`` dans le calcul des
-  bornes inférieure et supérieure d’une portion de calcul. Dans l’exemple
-  ci-dessous, la borne supérieure ``fin`` du processus ``rank`` correspond à
-  la borne inférieure ``debut`` du processus ``rank + 1``, donc aucune
-  itération n’est perdue :
+- Puisque la taille ``N`` d’une dimension n’est pas nécessairement un multiple
+  entier de ``nranks``, on ne peut pas faire une division entière de ``N`` par
+  ``nranks`` pour définir une taille unique de portion. On risquerait alors
+  d’oublier des éléments à calculer.
 
   .. code-block:: python
 
-      # Si rank vaut 0 (le premier rang), debut vaut 0
-      debut = rank * N // nranks
+      N = 18      # éléments
+      nranks = 5  # processus ou portions
+      taille_portion = N // nranks  # 3 éléments par processus
 
-      # Si rank vaut nranks-1 (le dernier rang), fin vaut N
+      assert taille_portion * nranks == N, f'{taille_portion * nranks} != {N}'
+
+      # AssertionError: 15 != 18
+
+- Par contre, on peut calculer une borne inférieure et une borne supérieure
+  pour chaque portion en fonction de la variable ``rank``. Dans le code
+  ci-dessous, on voit deux façons de calculer la borne inférieure ``debut``.
+  Par la suite, il faudrait utiliser ``rank + 1`` dans les mêmes formules pour
+  calculer la borne supérieure ``fin``.
+
+  .. code-block:: python
+
+      for rank in range(nranks):
+          taille_portion = N / nranks  # 3.6
+          debut_par_taille_float = int(taille_portion * rank)
+          debut_produit_dabord = rank * N // nranks
+
+          print(debut_par_taille_float, debut_produit_dabord)
+
+      # 0 0
+      # 3 3
+      # 7 7
+      # 10 10
+      # 14 14
+
+- Dans l’exemple ci-dessous, la borne supérieure ``fin`` du processus ``rank``
+  correspond à la borne inférieure ``debut`` du processus ``rank + 1``. Ainsi,
+  ce calcul des bornes permet de n’oublier aucun des ``N`` éléments tout en
+  ayant des portions de calcul plus ou moins égales.
+
+  .. code-block:: python
+
+      for rank in range(nranks):
+          # Si rank vaut 0 (le premier rang), debut vaut 0
+          debut = rank * N // nranks
+
+          # Si rank vaut nranks-1 (le dernier rang), fin vaut N
+          fin = (rank + 1) * N // nranks
+
+          print(f'{rank = } : {debut = :2d}, {fin = :2d} (diff = {fin-debut})')
+
+      # rank = 0 : debut =  0, fin =  3 (diff = 3)
+      # rank = 1 : debut =  3, fin =  7 (diff = 4)
+      # rank = 2 : debut =  7, fin = 10 (diff = 3)
+      # rank = 3 : debut = 10, fin = 14 (diff = 4)
+      # rank = 4 : debut = 14, fin = 18 (diff = 4)
+
+- En pratique, chaque processus n'a qu'un seul ``rank``, alors les deux bornes
+  de la portion sont calculées une seule fois.
+
+  .. code-block:: python
+
+      debut = rank * N // nranks
       fin = (rank + 1) * N // nranks
 
-      # Différentes sélections
-      portion_h = matrice[debut:fin, :]  # Quelques lignes
-      portion_v = matrice[:, debut:fin]  # Quelques colonnes
+      # Une sélection au choix
+      portion_h = matrice[debut:fin, :]  # Une portion de quelques lignes
+      portion_v = matrice[:, debut:fin]  # Une portion de quelques colonnes
 
 Exercice #4 - Multiplication de matrices
 ''''''''''''''''''''''''''''''''''''''''
