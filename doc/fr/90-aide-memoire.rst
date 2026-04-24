@@ -41,6 +41,14 @@ Aide-mémoire
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Get_size>`__
       - `MPI_Comm_size()
         <https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf#subsection.7.4.1>`__
+    * -
+      -
+      -
+    * - Temps actuel (secondes)
+      - `MPI.Wtime()
+        <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Wtime.html>`__
+      - `MPI_Wtime()
+        <https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf#section.9.6>`__
 
 .. list-table:: Communications point-à-point
     :header-rows: 1

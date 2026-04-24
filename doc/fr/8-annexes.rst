@@ -41,9 +41,9 @@ Avec ``mpi4py``, on aurait le code suivant :
 Mesure du temps écoulé avec ``MPI.Wtime()``
 -------------------------------------------
 
-Pour mesurer précisément le temps écoulé pendant l’exécution d’une partie du
-code Python, on peut utiliser la fonction ``MPI.Wtime()`` qui retourne le temps
-actuel en secondes en type ``float``. Pour calculer un temps écoulé, il suffit
+Pour mesurer précisément le temps d’exécution d’une partie du code Python, on
+peut utiliser la fonction ``MPI.Wtime()`` qui retourne une valeur de temps en
+secondes en double précision. Pour calculer un temps écoulé, il suffit
 d’appeler la fonction deux fois et de calculer la différence des valeurs
 retournées. Typiquement, un seul processus effectue ce calcul.
 
