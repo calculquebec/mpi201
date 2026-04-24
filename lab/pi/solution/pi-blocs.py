@@ -21,7 +21,8 @@ def main():
     borne_inf = rank * N // nranks
     borne_sup = (rank + 1) * N // nranks
 
-    for k in range(borne_sup - 1, borne_inf - 1, -1):
+    for k in range(borne_inf, borne_sup):
+        k = N - 1 - k  # N - 1 en premier
         somme += (4.0 - 8.0 * (k % 2)) / (2.0 * k + 1)
 
     pi = comm.reduce(somme, MPI.SUM, 0)

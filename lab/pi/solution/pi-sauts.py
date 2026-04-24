@@ -18,7 +18,8 @@ def main():
 
     somme = 0.0;
 
-    for k in range(N - 1 - rank, -1, -nranks):
+    for k in range(rank, N, nranks):
+        k = N - 1 - k  # N - 1 en premier
         somme += (4.0 - 8.0 * (k % 2)) / (2.0 * k + 1)
 
     pi = comm.reduce(somme, MPI.SUM, 0)
