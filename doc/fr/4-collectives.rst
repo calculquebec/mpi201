@@ -372,8 +372,7 @@ significatifs du résultat final.
       dans une boucle débutant à une valeur de ``k`` égale à ``rank``.
    #. Programmez une réduction des variables locales ``somme`` dans la variable
       ``pi`` du processus 0.
-   #. Lancez le programme avec deux (``2``), trois (``3``) et quatre (``4``)
-      processus.
+   #. Lancez le programme avec ``1``, ``2``, ``3`` et ``4`` processus.
 
       #. Utilisez ``time -p`` pour mesurer le temps réel écoulé. Par exemple,
          ``srun -n 2 time -p python pi-sauts.py``.
