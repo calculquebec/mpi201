@@ -369,16 +369,21 @@ significatifs du résultat final.
    séquentiel en programme utilisant MPI.
 
    #. Utilisez la stratégie qui consiste à **faire des sauts** de ``nranks``
-      dans une boucle débutant à une valeur de ``k`` qui dépend de ``rank``.
-   #. Programmez une réduction des ``somme`` dans la variable ``pi``.
-   #. Lancez le programme avec deux (2), trois (3) et quatre (4) processus et
-      observez la précision de l’approximation de pi.
+      dans une boucle débutant à une valeur de ``k`` égale à ``rank``.
+   #. Programmez une réduction des variables locales ``somme`` dans la variable
+      ``pi`` du processus 0.
+   #. Lancez le programme avec deux (``2``), trois (``3``) et quatre (``4``)
+      processus.
+
+      #. Utilisez ``time -p`` pour mesurer le temps réel écoulé. Par exemple,
+         ``srun -n 2 time -p python pi-sauts.py``.
+      #. Observez la précision de l’approximation de pi et le temps ``real`` de
+         chaque processus.
 
 #. Dans le fichier ``pi-blocs.py``, complétez la conversion du programme
    séquentiel en programme utilisant MPI.
 
-   #. Utilisez la stratégie qui consiste à **boucler d’une borne supérieure à
-      une borne inférieure**.
-   #. Programmez une réduction des ``somme`` dans la variable ``pi``.
-   #. Lancez le programme avec deux (2), trois (3) et quatre (4) processus et
-      observez la précision de l’approximation de pi.
+   #. Utilisez la stratégie qui consiste à **boucler d’une borne inférieure à
+      une borne supérieure**.
+   #. Refaites les étapes 2.2 (réduction) et 2.3 (expérimentation) ci-dessus,
+      mais pour le fichier ``pi-blocs.py``.
