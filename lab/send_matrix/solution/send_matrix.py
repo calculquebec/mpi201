@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from mpi4py import MPI  # MPI.Init() implicite
+from mpi4py import MPI
 import sys
 
 
 def main():
     """
-    Programme principal
+    Programme principal / Main program
     """
 
     comm = MPI.COMM_WORLD
