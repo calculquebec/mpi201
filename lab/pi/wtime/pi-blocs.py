@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from mpi4py import MPI  # MPI.Init() implicite
+from mpi4py import MPI
 import math
 import sys
 
@@ -33,7 +33,7 @@ def main():
     if rank == 0:
         t2 = MPI.Wtime()
         print(f'PI est approximativement {pi:.16f},',
-              f'avec une différence de {abs(pi - math.pi):.16f}')
+              f'avec une erreur de {pi - math.pi:.16f}')
         print(f'Temps = {t2 - t1:.6f} sec')
 
     MPI.Finalize()

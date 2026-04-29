@@ -7,7 +7,7 @@ import sys
 
 def main():
     """
-    Programme principal
+    Main program
     """
 
     N = 100000000
@@ -16,20 +16,20 @@ def main():
     rank = comm.Get_rank()
     nranks = comm.Get_size()
 
-    somme = 0.0;
+    my_sum = 0.0;
 
-    #borne_inf = ...
-    #borne_sup = ...
+    #start = ...
+    #end = ...
 
     for k in range(0, N):
-        k = N - 1 - k  # N - 1 en premier
-        somme += (4.0 - 8.0 * (k % 2)) / (2.0 * k + 1)
+        k = N - 1 - k  # Do N - 1 first
+        my_sum += (4.0 - 8.0 * (k % 2)) / (2.0 * k + 1)
 
-    pi = somme
+    pi = my_sum
 
     if rank == 0:
-        print(f'PI est approximativement {pi:.16f},',
-              f'avec une erreur de {pi - math.pi:.16f}')
+        print(f'PI is approximately {pi:.16f},',
+              f'with an error of {pi - math.pi:.16f}')
 
     MPI.Finalize()
 
