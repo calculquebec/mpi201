@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from mpi4py import MPI  # MPI.Init() implicite
+from mpi4py import MPI
 import sys
 
 
 def main():
     """
-    Programme principal
+    Programme principal / Main program
     """
 
     comm = MPI.COMM_WORLD
@@ -19,7 +19,7 @@ def main():
     if rank == 0:
         A = [1.0, 2.0]
 
-        # Send and Receive
+        # Send & Receive
         comm.send(A, dest=1, tag=10)
         B = comm.recv(source=1, tag=20)
         print(f'Process {rank} sent     A=[{A[0]}, {A[1]}]')
@@ -28,7 +28,7 @@ def main():
     if rank == 1:
         B = [3.0, 4.0]
 
-        # Send and Receive
+        # Send & Receive
         A = comm.recv(source=0, tag=10)
         comm.send(B, dest=0, tag=20)
         print(f'Process {rank} sent     B=[{B[0]}, {B[1]}]')
