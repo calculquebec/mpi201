@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from mpi4py import MPI  # MPI.Init() implicite
+from mpi4py import MPI
 import numpy as np
 
 def main():
     """
-    Programme principal
+    Main program
     """
 
     N = 512
@@ -19,39 +19,39 @@ def main():
     else:
         A = None
 
-    # Diffusion de la matrice A
+    # Diffusion of matrix A
     A = comm.bcast(A, 0)
 
     if rank == 0:
         B = np.random.rand(N, N)
 
-        # Calcul des portions de la matrice B
+        # Calculate the portions of matrix B
         b_list = [
             B[
                 :,
-                (r * N // nranks):((r + 1) * N // nranks)  # debut:fin
+                (r * N // nranks):((r + 1) * N // nranks)  # start:end
             ] for r in range(nranks)
         ]
 
-        # Voir aussi : numpy.hsplit(matrice, [séparateurs])
+        # See also: numpy.hsplit(matrix, [separators])
         # b_list = np.hsplit(B, [r * N // nranks for r in range(1, nranks)])
     else:
         b_list = None
 
-    # Distribution des portions de la matrice B
+    # Distribution of portions of matrix B
     b = comm.scatter(b_list, 0)
 
-    # Calcul principal
+    # Main calculation
     c = A @ b
 
-    # Regroupement des résultats partiels
+    # Group the partial results
     c_list = comm.gather(c, 0)
 
     if rank == 0:
-        # Reconstruire la matrice finale C
+        # Reconstruct the final matrix C
         C = np.concatenate(c_list, axis=1)
 
-        assert np.allclose(C, A @ B), 'Erreur de programmation'
+        assert np.allclose(C, A @ B), 'Programming error'
         print('OK!')
 
     MPI.Finalize()
