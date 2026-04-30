@@ -109,8 +109,9 @@ parmi eux.
     En cas de conflit de nom avec une autre variable ``size`` dans votre code,
     vous pouvez utiliser ``nranks`` à la place.
 
-Dans le fichier ``~/mpi201-main/lab/bonjour/bonjour.py``,
-on a l’exemple suivant :
+Dans `le fichier
+<https://github.com/calculquebec/mpi201/blob/main/lab/bonjour/bonjour.py>`__
+``~/mpi201-main/lab/bonjour/bonjour.py``, on a l’exemple suivant :
 
 .. code-block:: python
 
@@ -264,7 +265,9 @@ Exercice #1 - Premier lancement
        [alice@narval1 bonjour]$ module list
        [alice@narval1 bonjour]$ module load mpi4py/4.0.3
 
-#. Avec ``srun``, lancez 4 processus ``python`` avec le script ``bonjour.py`` :
+#. Avec ``srun``, lancez 4 processus ``python`` avec `le script
+   <https://github.com/calculquebec/mpi201/blob/main/lab/bonjour/bonjour.py>`__
+   ``bonjour.py`` :
 
    .. code-block:: console
 
