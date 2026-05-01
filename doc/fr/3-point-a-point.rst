@@ -76,8 +76,9 @@ Exercice #2 - Envoi d’une matrice
 
 #. Allez dans le répertoire de l’exercice avec la commande
    ``cd ~/mpi201-main/lab/send_matrix``.
-#. Éditez le fichier ``send_matrix.py`` pour programmer le transfert de la
-   matrice.
+#. Éditez `le fichier
+   <https://github.com/calculquebec/mpi201/blob/main/lab/send_matrix/send_matrix.py>`__
+   ``send_matrix.py`` pour programmer le transfert de la matrice.
 #. Lancez ce programme avec deux (2) processus.
 
 Éviter les situations d’interblocage
@@ -143,7 +144,9 @@ Exercice #3 - Échange de vecteurs
 
 #. Allez dans le répertoire de l’exercice avec la commande
    ``cd ~/mpi201-main/lab/exchange``.
-#. Éditez le fichier ``exchange.py`` pour programmer l’échange de données.
+#. Éditez `le fichier
+   <https://github.com/calculquebec/mpi201/blob/main/lab/exchange/exchange.py>`__
+   ``exchange.py`` pour programmer l’échange de données.
 #. Lancez ce programme avec deux (2) processus.
 
 Solution 2

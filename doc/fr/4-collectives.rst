@@ -191,8 +191,10 @@ ensuite concaténés horizontalement pour former la matrice résultante :math:`C
 
 #. Allez dans le répertoire de l’exercice avec la commande
    ``cd ~/mpi201-main/lab/mat_mul``.
-#. Dans le fichier ``mat_mul.py``, éditez les lignes avec des ``...``.
-   Essentiellement, le processus racine :
+#. Dans `le fichier
+   <https://github.com/calculquebec/mpi201/blob/main/lab/mat_mul/mat_mul.py>`__
+   ``mat_mul.py``, éditez les lignes avec des ``...``. Essentiellement, le
+   processus racine :
 
    #. Crée la matrice ``A`` et **diffuse** cette matrice aux autres processus.
    #. Crée des portions plus ou moins égales de ``B`` dans ``b_list`` et
@@ -365,8 +367,10 @@ significatifs du résultat final.
 
 #. Allez dans le répertoire de l’exercice avec la commande
    ``cd ~/mpi201-main/lab/pi``.
-#. Dans le fichier ``pi-sauts.py``, complétez la conversion du programme
-   séquentiel en programme utilisant MPI.
+#. Dans `le fichier
+   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-sauts.py>`__
+   ``pi-sauts.py``, complétez la conversion du programme séquentiel en
+   programme utilisant MPI.
 
    #. Utilisez la stratégie qui consiste à **faire des sauts** de ``nranks``
       dans une boucle débutant à une valeur de ``k`` égale à ``rank``.
@@ -379,8 +383,10 @@ significatifs du résultat final.
       #. Observez la précision de l’approximation de pi et le temps ``real`` de
          chaque processus.
 
-#. Dans le fichier ``pi-blocs.py``, complétez la conversion du programme
-   séquentiel en programme utilisant MPI.
+#. Dans `le fichier
+   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-blocs.py>`__
+   ``pi-blocs.py``, complétez la conversion du programme séquentiel en
+   programme utilisant MPI.
 
    #. Utilisez la stratégie qui consiste à **boucler d’une borne inférieure à
       une borne supérieure**.
