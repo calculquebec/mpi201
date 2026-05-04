@@ -3,121 +3,119 @@ Introduction
 
 `Français <../fr/1-introduction.html>`_
 
-Il existe deux grandes catégories de tâches de calcul qui travaillent
-sur un même problème : les tâches séquentielles et les tâches parallèles.
+There are two main categories of programs for solving a problem: serial
+programs and parallel programs.
 
 .. figure:: ../images/serial-vs-parallel_en.svg
 
-Or, les superordinateurs modernes consistent en un **grand nombre de
-serveurs** de calcul contenant chacun **plusieurs processeurs** qui
-doivent se **coordonner** pour exécuter un programme parallèle.
+Modern supercomputers consist of a **large number of compute servers**, each
+containing **several processors** that must **coordinate** to run a parallel
+program.
 
 .. figure:: https://live.staticflickr.com/65535/49019703558_3c49a9766e.jpg
 
-MPI est la méthode la plus **courante et portable** de
-paralléliser un programme s’exécutant sur plusieurs serveurs.
+MPI is the most **common and portable** method of parallelizing a program
+running on multiple servers.
 
-Machine à mémoire distribuée
-----------------------------
+Distributed memory machine
+--------------------------
 
-Une machine à mémoire distribuée est constituée de plusieurs serveurs de
-calcul, communément appelés *nœuds*, qui sont connectés via un réseau de
-haute performance. La mémoire est dite *distribuée*, car les programmes sur un
-serveur ne peuvent pas accéder directement à la mémoire sur un autre serveur.
+A distributed memory machine consists of several compute servers, commonly
+called *nodes*, which are connected via a high-performance network. The memory
+is said to be *distributed* because programs on one server cannot directly
+access the memory on another server.
 
 .. figure:: ../images/distributed-memory-hardware_en.svg
 
-Dans ce type de machine, des variables en apparence identiques sont en fait
-des **instances totalement différentes dans des processus différents**.
-Par conséquent, il devient nécessaire d’établir un moyen de
-communication entre les processus pour **transférer des données**.
+In this type of machine, seemingly identical variables are in fact **completely
+different instances in different processes**. Therefore, it becomes necessary
+to establish a means of communication between processes to **transfer data**.
 
 .. figure:: ../images/distributed-memory-processes_en.svg
 
-Des questions à se poser
-------------------------
+Questions to ask yourself
+-------------------------
 
-- Pourquoi diviser un calcul sur plusieurs serveurs?
+- Why split a calculation across multiple servers?
 
-  - Pour possiblement l’accélérer.
-  - Pour augmenter sa taille et obtenir un résultat en temps raisonnable.
-  - À cause de la quantité limitée de mémoire vive sur chaque serveur.
+  - To possibly speed it up.
+  - To increase its size and achieve results in a reasonable timeframe.
+  - Due to the limited amount of RAM on each server.
 
-- Quelle stratégie utiliser pour diviser un calcul?
+- What strategy should be used to divide a calculation?
 
-  - Nous verrons cela à la section suivante.
+  - We will see this in the next section.
 
-- Comment envoyer et recevoir des données entre les processus?
+- How to send and receive data between processes?
 
-  - C’est ce que nous allons voir dans les chapitres suivants.
+  - This is what we will see in the following chapters.
 
-Stratégies de division du calcul
---------------------------------
+Calculation division strategies
+-------------------------------
 
-La division ou le partitionnement d’un calcul peut se faire selon
-l’espace des itérations ou selon l’espace du modèle à calculer.
+The division or partitioning of a calculation can be done according to the
+space of iterations or according to the space of the model to be calculated.
 
-.. _intro-espaces-lineaires:
+.. _intro-linear-spaces:
 
-Espaces linéaires
-'''''''''''''''''
+Linear spaces
+'''''''''''''
 
-- Dans le cas de :math:`N` valeurs calculées successivement, le calcul d’une
-  réduction de ces valeurs, par exemple une somme ou un produit, peut être
-  divisée à parts égales entre les processus. Ensuite, le résultat de chaque
-  réduction *locale* sert à calculer la réduction globale. Par exemple, on
-  pourrait calculer une réduction de :math:`N=12` valeurs avec un opérateur
-  de réduction ``op`` (``+`` pour une somme, ``*`` pour un produit) au moyen
-  de trois processus (p0, p1 et p2).
+- In the case of :math:`N` values calculated successively, the calculation of a
+  reduction of these values, for example a sum or a product, can be divided
+  equally among the processes. Then, the result of each *local* reduction is
+  used to calculate the overall reduction. For example, one could calculate a
+  reduction of :math:`N=12` values with a reduction operator ``op`` (``+`` for
+  a sum, ``*`` for a product) using three processes (p0, p1, and p2).
 
   .. figure:: ../images/parallel-reduction_en.svg
 
-- Dans le cas d’un calcul qui utilise des données provenant d’un vecteur ou qui
-  génère des données à stocker dans un vecteur, les opérations peuvent être
-  divisées également entre les processus, mais il faut garder à l’esprit que
-  des optimisations dépendent de la proximité des données en mémoire.
+- In the case of a calculation that uses data from a vector or that generates
+  data to be stored in a vector, the operations can be divided equally between
+  processes, but it must be kept in mind that optimizations depend on the
+  proximity of the data in memory.
 
   .. figure:: ../images/parallel-array-1d_en.svg
 
-.. _intro-espaces-deux-dimensions:
+.. _intro-two-dim-spaces:
 
-Espaces à deux dimensions
-'''''''''''''''''''''''''
+Two-dimensional spaces
+''''''''''''''''''''''
 
-- Dans le cas d’un calcul utilisant des données disposées en deux dimensions,
-  comme des matrices ou des images, on peut diviser l’espace en partitions
-  horizontales, verticales ou en blocs. Par exemple, une matrice 8x8 pourrait
-  être divisée en quatre partitions similaires et un processus serait assigné
-  à chaque partition.
+- In the case of a calculation using data arranged in two dimensions, such as
+  matrices or images, the space can be divided into horizontal partitions,
+  vertical partitions, or blocks. For example, an 8x8 matrix could be divided
+  into four similar partitions, and a process would be assigned to each
+  partition.
 
   .. figure:: ../images/parallel-array-2d.svg
 
-- Dans le cas d’un calcul utilisant des données d’un espace linéaire, par
-  exemple un vecteur, mais qui calcule toutes les différentes paires de
-  valeurs, on se retrouve avec un espace de calcul à deux dimensions et, donc,
-  avec les mêmes options de partitionnement que dans la figure ci-dessus.
+- In the case of a calculation using data from a linear space, for example a
+  vector, but which calculates all the different pairs of values, we end up
+  with a two-dimensional computation space and, therefore, with the same
+  partitioning options as in the figure above.
 
   .. figure:: ../images/parallel-comb-1dx1d.svg
 
-Modèle gestionnaire-travailleurs
-''''''''''''''''''''''''''''''''
+Manager-worker model
+''''''''''''''''''''
 
-- Dans le cas d’un problème comportant une liste de calculs non uniformes,
-  on voudrait pouvoir distribuer un calcul à la fois à chaque processus
-  disponible. Ce modèle de calcul parallèle comprend :
+- In the case of a problem with a list of non-uniform computations, we would
+  like to be able to distribute one computation at a time to each available
+  process. This parallel computing model includes:
 
-  - Un gestionnaire, habituellement le premier processus dans un groupe.
-    Ses responsabilités sont :
+  - A manager, usually the first process in a group. Its responsibilities
+    include:
 
-    - Distribuer des calculs et recevoir les résultats des travailleurs.
-    - Envoyer un message spécial lorsqu’il faut quitter.
+    - Distribute calculations and receive results from workers.
+    - Send a special message when it is time to *leave* (exit).
 
-  - Des travailleurs, soient les processus restants dans le groupe.
-    Leurs responsabilités sont :
+  - Workers, or the remaining processes within the group. Their
+    responsibilities are:
 
-    - Recevoir un calcul à faire et envoyer les résultats au gestionnaire.
-    - Quitter lorsque le gestionnaire envoie un message à cet effet.
+    - Receive a calculation to perform and send the results to the manager.
+    - Exit when the manager sends a message to that effect.
 
   .. figure:: ../images/parallel-manager-workers_en.svg
 
-Bref, toutes ces stratégies impliquent **l’envoi et la réception de messages**.
+In short, all these strategies involve **sending and receiving messages**.
