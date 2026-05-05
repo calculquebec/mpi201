@@ -10,12 +10,14 @@ MPI, pour **Message Passing Interface**, est une interface de transmission de
 messages.
 
 - Ce n’est **pas** un langage de programmation.
-- C’est à l’origine une **bibliothèque de fonctions** que l’on peut appeler à
-  partir du Fortran, du C ou encore du C++.
-- C’est une `norme officielle <https://www.mpi-forum.org/docs/>`__
-  (de MPI 1.0 en 1994 à `MPI 4.1
-  <https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf>`__
-  depuis novembre 2023).
+- Il s'agit d'une `spécification pour des bibliothèques normalisées
+  <https://www.mpi-forum.org/docs/>`__ (de MPI 1.0 en 1994 à `MPI 5.0
+  <https://www.mpi-forum.org/docs/mpi-5.0/mpi50-report.pdf>`__
+  depuis juin 2025).
+
+  - La norme spécifie les interfaces de bibliothèque en C et en Fortran.
+  - Il existe différentes implémentations : Open MPI, Intel MPI, etc.
+
 - Hors norme, il existe des interfaces en d’autres langages :
   **Python**, R, Perl et Java.
 
@@ -110,8 +112,8 @@ parmi eux.
     vous pouvez utiliser ``nranks`` à la place.
 
 Dans `le fichier
-<https://github.com/calculquebec/mpi201/blob/main/lab/bonjour/bonjour.py>`__
-``~/mpi201-main/lab/bonjour/bonjour.py``, on a l’exemple suivant :
+<https://github.com/calculquebec/mpi201/blob/main/lab/hello_world/bonjour.py>`__
+``~/mpi201-main/lab/hello_world/bonjour.py``, on a l’exemple suivant :
 
 .. code-block:: python
 
@@ -136,7 +138,8 @@ Dans `le fichier
 Environnement requis pour utiliser MPI
 --------------------------------------
 
-Pour utiliser MPI en Python, il faut deux modules :
+Dans l'environnement Linux de la grappe de calcul, pour utiliser MPI en Python,
+il faut charger deux modules :
 
 - Un module permettant de compiler et d’exécuter un programme MPI est chargé
   par défaut (``openmpi``). Pour voir tous les modules chargés :
@@ -196,8 +199,8 @@ Pour utiliser MPI en Python, il faut deux modules :
             StdEnv/2023  gcc/12.3  openmpi/4.1.5
 
 - Puisque nous avons déjà toutes les dépendances requises, nous pouvons ensuite
-  charger ``mpi4py`` dans l’environnement. Note : un module Python sera chargé
-  automatiquement.
+  charger ``mpi4py`` dans l’environnement. Note : un module ``python`` sera
+  chargé automatiquement.
 
   .. code-block:: console
       :emphasize-lines: 8-9
@@ -257,21 +260,21 @@ Exercice #1 - Premier lancement
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/mpi201-main/lab/bonjour``.
+   ``cd ~/mpi201-main/lab/hello_world``.
 #. Validez les modules et chargez les modules manquants, au besoin :
 
    .. code-block:: console
 
-       [alice@narval1 bonjour]$ module list
-       [alice@narval1 bonjour]$ module load mpi4py/4.0.3
+       [alice@narval1 hello_world]$ module list
+       [alice@narval1 hello_world]$ module load mpi4py/4.0.3
 
 #. Avec ``srun``, lancez 4 processus ``python`` avec `le script
-   <https://github.com/calculquebec/mpi201/blob/main/lab/bonjour/bonjour.py>`__
+   <https://github.com/calculquebec/mpi201/blob/main/lab/hello_world/bonjour.py>`__
    ``bonjour.py`` :
 
    .. code-block:: console
 
-       [alice@narval1 bonjour]$ srun -n 4 python bonjour.py
+       [alice@narval1 hello_world]$ srun -n 4 python bonjour.py
        Ici le processus 3 de 4
        Ici le processus 2 de 4
        Ici le processus 0 de 4
@@ -296,6 +299,8 @@ Voici quelques informations à savoir avant de programmer toute communication.
     objet et envoie simplement un vecteur d’octets.
   - À la réception d’un message, l’objet est reconstitué.
   - La gestion des types se fait donc automatiquement.
+  - En :doc:`annexe <8-annexes>`, on retrouve certaines fonctions optimisées
+    spécifiquement pour des tableaux NumPy.
 
 - **Les types de communications**
 
