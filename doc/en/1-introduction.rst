@@ -39,16 +39,21 @@ Questions to ask yourself
 - Why split a calculation across multiple servers?
 
   - To possibly speed it up.
-  - To potentially increase the size of the calculation and obtain a result in
-    a reasonable time.
+  - To potentially increase the size of the problem and obtain a result in a
+    reasonable time.
   - Due to the limited amount of RAM on each server.
 
 - What strategy should be used to divide a calculation?
 
-  - We will see this in the next section.
+  - Is the problem made of a single large splittable model?
+  - Does the problem consist of a series of independent calculations?
+  - We will see some strategies in the next section.
 
 - How to send and receive data between processes?
 
+  - How can we avoid using the IP addresses of the remote compute servers?
+  - How can we determine which processes on a server are involved in the
+    parallel calculation?
   - This is what we will see in the following chapters.
 
 Calculation division strategies

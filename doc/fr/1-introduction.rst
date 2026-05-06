@@ -40,16 +40,21 @@ Des questions à se poser
 - Pourquoi diviser un calcul sur plusieurs serveurs?
 
   - Pour possiblement l’accélérer.
-  - Pour éventuellement augmenter la taille du calcul et obtenir un résultat en
-    temps raisonnable.
+  - Pour éventuellement augmenter la taille du problème et obtenir un résultat
+    en temps raisonnable.
   - À cause de la quantité limitée de mémoire vive sur chaque serveur.
 
 - Quelle stratégie utiliser pour diviser un calcul?
 
-  - Nous verrons cela à la section suivante.
+  - Le problème est-il constitué d’un seul grand modèle divisible?
+  - Le problème est-il constitué d’une série de calculs indépendants?
+  - Nous verrons quelques stratégies à la section suivante.
 
 - Comment envoyer et recevoir des données entre les processus?
 
+  - Comment éviter d’utiliser les adresses IP des serveurs de calcul distants?
+  - Sur un serveur, comment savoir quels processus participent au calcul
+    parallèle?
   - C’est ce que nous allons voir dans les chapitres suivants.
 
 Stratégies de division du calcul
