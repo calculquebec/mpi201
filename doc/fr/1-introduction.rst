@@ -40,7 +40,8 @@ Des questions à se poser
 - Pourquoi diviser un calcul sur plusieurs serveurs?
 
   - Pour possiblement l’accélérer.
-  - Pour augmenter sa taille et obtenir un résultat en temps raisonnable.
+  - Pour éventuellement augmenter la taille du calcul et obtenir un résultat en
+    temps raisonnable.
   - À cause de la quantité limitée de mémoire vive sur chaque serveur.
 
 - Quelle stratégie utiliser pour diviser un calcul?

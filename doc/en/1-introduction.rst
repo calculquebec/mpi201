@@ -39,7 +39,8 @@ Questions to ask yourself
 - Why split a calculation across multiple servers?
 
   - To possibly speed it up.
-  - To increase its size and achieve results in a reasonable timeframe.
+  - To potentially increase the size of the calculation and obtain a result in
+    a reasonable time.
   - Due to the limited amount of RAM on each server.
 
 - What strategy should be used to divide a calculation?
