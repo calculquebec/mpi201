@@ -3,62 +3,61 @@ Point-to-point communications
 
 `Français <../fr/3-point-a-point.html>`_
 
-- Elles sont *locales*, c’est-à-dire que seuls **deux processus** sont
-  impliqués : ils sont les seuls à appeler réciproquement des fonctions de
-  communication, donc ils sont les seuls à participer à cet échange.
+- Point-to-point communications are *local*, which means that only **two
+  processes** are involved: they are the only ones that call reciprocal
+  communication functions and are the only ones involved in the exchange.
 
-  - Les appels aux fonctions d’envoi et de réception viennent donc toujours par
-    paires sur des processus différents.
+  - Send and receive functions are always called in pairs by different
+    processes.
 
-- Les fonctions d’envoi et de réception peuvent être bloquantes ou non.
+- Send and receive functions can be blocking or non-blocking.
 
-Envois et réceptions (bloquants)
+Sending and receiving (blocking)
 --------------------------------
 
-Avec ``mpi4py``, les envois de données se font à partir d’un communicateur
-(``comm``) et de la `méthode
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.send>`__
-``send()`` :
+With ``mpi4py``, data transmissions are made from a communicator (``comm``) and
+the ``send()`` `method
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.send>`__:
 
 .. code-block:: python
 
-    comm.send(envoi, dest=dest, tag=etiquette)
+    comm.send(obj, dest=dest, tag=tag)
 
-- ``comm`` : par exemple, ``MPI.COMM_WORLD``.
-- ``envoi`` : n’importe quel objet sérialisable via `pickle
+- ``comm``: for example, ``MPI.COMM_WORLD``.
+- ``obj``: any object that can be serialized via `pickle
   <https://docs.python.org/3/library/pickle.html#module-pickle>`__.
-- ``dest`` : rang du processus recevant des données.
-- ``etiquette`` : nombre entier au choix identifiant le type de transfert.
+- ``dest``: rank of receiving process (destination).
+- ``tag``: user-defined number (can be used to check reception).
 
-Réciproquement, les réceptions de données se font à partir du même
-communicateur et de la `méthode
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.recv>`__
-``recv()`` :
+Reciprocally, data reception occurs from the same communicator and the
+``recv()`` `method
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.recv>`__:
 
 .. code-block:: python
 
-    recept = comm.recv(source=source, tag=etiquette, status=etat)
+    recept = comm.recv(source=source, tag=tag, status=status)
 
-- ``recept`` : une variable ou une partie d’un objet modifiable, pour recevoir
-  l’objet désérialisé.
-- ``source`` : ``MPI.ANY_SOURCE`` (valeur par défaut) ou un rang précis.
-- ``etiquette`` : ``MPI.ANY_TAG`` (valeur par défaut) ou un nombre précis.
-- ``etat`` : ``None`` (valeur par défaut) ou objet de type ``MPI.Status``.
+- ``recept``: a variable or part of a modifiable object, to receive the
+  deserialized object.
+- ``source``: ``MPI.ANY_SOURCE`` (default value) or the rank of a specific
+  sender.
+- ``tag``: ``MPI.ANY_TAG`` (default value) or a specific tag.
+- ``status``: ``None`` (default value) or an object of type ``MPI.Status``.
 
-  - ``.count`` : nombre d’octets reçus.
-  - ``.source`` : rang de la source des données.
-  - ``.tag`` : étiquette du transfert.
+  - ``.count``: number of bytes received.
+  - ``.source``: rank of the source of the received message.
+  - ``.tag``: tag of the received message.
 
-Exemple - Envoi et réception
-''''''''''''''''''''''''''''
+Example - Sending and receiving
+'''''''''''''''''''''''''''''''
 
-Chaque processus a ses propres variables ``a`` et ``b``.
-Le processus 2 envoie la valeur de sa variable ``a`` vers
-le processus 0 qui reçoit cette valeur via sa variable ``b``.
+Each process has its own variables ``a`` and ``b``. Process 2 sends the value
+of its variable ``a`` to process 0, which receives this value in its variable
+``b``.
 
 .. figure:: ../images/mpi_point2point_en.svg
 
-Avec ``mpi4py``, voici une implémentation de cette communication :
+With ``mpi4py``, here is an implementation of this communication:
 
 .. code-block:: python
 
@@ -67,28 +66,28 @@ Avec ``mpi4py``, voici une implémentation de cette communication :
     elif rank == 0:
         b = comm.recv(source=2, tag=746)
 
-Exercice #2 - Envoi d’une matrice
-'''''''''''''''''''''''''''''''''
+Exercise #2 - Sending a matrix
+''''''''''''''''''''''''''''''
 
-**Objectif** : envoyer une matrice 4x4 du processus 0 au processus 1.
+**Objective**: sending a 4x4 matrix from process 0 to process 1.
 
 **Instructions**
 
-#. Allez dans le répertoire de l’exercice avec la commande
+#. Go to the exercise directory with
    ``cd ~/mpi201-main/lab/send_matrix``.
-#. Éditez `le fichier
+#. Edit `the file
    <https://github.com/calculquebec/mpi201/blob/main/lab/send_matrix/send_matrix.py>`__
-   ``send_matrix.py`` pour programmer le transfert de la matrice.
-#. Lancez ce programme avec deux (2) processus.
+   ``send_matrix.py`` to program the matrix transfer.
+#. Run this program with two (2) processes.
 
-Éviter les situations d’interblocage
-------------------------------------
+Avoiding deadlock situations
+----------------------------
 
 .. figure:: ../images/mpi_ssend-2ranks.svg
     :align: right
     :width: 360px
 
-Soit le code suivant :
+Consider the following code:
 
 .. code-block:: python
     :emphasize-lines: 2,5
@@ -100,15 +99,15 @@ Soit le code suivant :
         comm.ssend(b, dest=0, tag=11)
         a = comm.recv(source=0, tag=10)
 
-- La `méthode
+- The `synchronous method
   <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.ssend>`__
-  ``ssend()`` est une version synchrone de ``send()``, ce qui la rend toujours
-  bloquante.
-- Dans le cas ci-dessus, les deux processus attendent que l’autre fasse appel
-  à ``recv()``. Bref, ce code est **erroné** et cause un interblocage.
-- Avec la méthode standard ``send()``, le code resterait à risque ; la
-  quantité de mémoire tampon étant limitée, le code bloquera lors de l’échange
-  de gros messages.
+  ``ssend()`` is a version of ``send()`` without a buffer, which makes it
+  always blocking (``send()`` may not block for small messages).
+- In the above case, the two processes wait until the other calls ``recv()``.
+  This code is hence **buggy** and causes a deadlock!
+- And even with ``send()`` instead of ``ssend()``, the code is risky. The
+  amount of buffer memory for ``send()`` is not defined, so the code may
+  eventually block when exchanging large messages.
 
 Solution 1
 ''''''''''
@@ -117,8 +116,8 @@ Solution 1
     :align: right
     :width: 360px
 
-On change l’ordre des appels à ``ssend()`` et ``recv()`` pour un des deux
-processus. Par exemple :
+Change the order of calls to ``ssend()`` and ``recv()`` for one of the two
+processes. For example:
 
 .. code-block:: python
     :emphasize-lines: 5-6
@@ -130,24 +129,24 @@ processus. Par exemple :
         a = comm.recv(source=0, tag=10)
         comm.ssend(b, dest=0, tag=11)
 
-On peut généraliser la technique à plus de processus :
+One can generalize this technique to more processes:
 
-- Les processus pairs commencent par envoyer.
-- Les processus impairs commencent par recevoir.
+- Evenly ranked processes start by sending.
+- Oddly ranked processes start by receiving.
 
-Exercice #3 - Échange de vecteurs
-'''''''''''''''''''''''''''''''''
+Exercise #3 - Exchange two lists
+''''''''''''''''''''''''''''''''
 
-**Objectif** : échanger un petit vecteur de données.
+**Objective**: exchange a small list with data.
 
 **Instructions**
 
-#. Allez dans le répertoire de l’exercice avec la commande
+#. Go to the exercise directory with
    ``cd ~/mpi201-main/lab/exchange``.
-#. Éditez `le fichier
+#. Edit `the file
    <https://github.com/calculquebec/mpi201/blob/main/lab/exchange/exchange.py>`__
-   ``exchange.py`` pour programmer l’échange de données.
-#. Lancez ce programme avec deux (2) processus.
+   ``exchange.py`` to program the data exchange.
+#. Run this program with two (2) processes.
 
 Solution 2
 ''''''''''
@@ -156,58 +155,59 @@ Solution 2
     :align: right
     :width: 360px
 
-On utilise des communications non bloquantes pour démarrer les transferts.
-Ainsi, même si l’envoi n’est pas terminé, on peut commencer la réception tout
-en évitant l’interblocage. Par exemple :
+Non-blocking communications are used to initiate the transfers. Even when the
+send hasn't finished yet, each process can start the receive, so deadlocks are
+avoided. For example:
 
 .. code-block:: python
     :emphasize-lines: 2,5,8
 
     if rank == 0:
-        requete = comm.isend(a, dest=2, tag=10)
+        request = comm.isend(a, dest=2, tag=10)
         b = comm.recv(source=2, tag=11)
     elif rank == 2:
-        requete = comm.isend(b, dest=0, tag=11)
+        request = comm.isend(b, dest=0, tag=11)
         a = comm.recv(source=0, tag=10)
 
-    requete.wait()
+    request.wait()
 
-En plus de débloquer les deux processus, cette solution permet de reprendre les
-calculs plus hâtivement.
+In addition to unblocking both processes, this solution allows calculations to
+resume more quickly.
 
-Communications non bloquantes
------------------------------
+Non-blocking communications
+---------------------------
 
-Avec ``mpi4py``, les communicateurs ont les `méthodes
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html>`__
-suivantes :
+With ``mpi4py``, the communicators have the following `methods
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html>`__:
 
 .. code-block:: python
     :emphasize-lines: 1,4
 
-    requete = comm.isend(envoi, dest, tag=0)
-    requete.wait()
+    request = comm.isend(obj, dest, tag=0)
+    request.wait()
 
-    requete = comm.irecv(source=ANY_SOURCE, tag=ANY_TAG)
-    recept = requete.wait(status=None)
+    request = comm.irecv(source=ANY_SOURCE, tag=ANY_TAG)
+    recept = request.wait(status=None)
 
-- Il n’est pas nécessaire que l’envoi et la réception soient tous les deux non
-  bloquants (toutes les combinaisons sont permises).
-- Après l’appel à ``isend()`` ou ``irecv()``, on doit utiliser la variable
-  ``requete`` pour s’assurer que la communication est complétée.
+- You don’t need to make both send and receive non-blocking (all combinations
+  are permitted).
+- After calling ``isend()`` or ``irecv()``, one must use the ``request`` object
+  returned by the call to ensure that the communication has terminated.
 
-  - La `méthode
+  - The ``wait()`` `method
     <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Request.html#mpi4py.MPI.Request.wait>`__
-    ``wait()`` est bloquante et retourne quand la communication est terminée.
-  - Lors d’une réception, c’est ``requete.wait()`` qui retourne l’objet reçu.
+    is blocking. When it returns, the communication has finished.
+  - During a reception, it is ``request.wait()`` which returns the received
+    data in a deserialized object.
 
-- Quand la communication a terminé, on peut réutiliser les objets transmis ou
-  reçus.
+- Only once the communication has finished one can reuse the arrays that were
+  sent or received!
 
-Voici un exemple de calcul itératif sur un tableau ``a[]`` où chaque processus
-``rank`` est responsable des valeurs aux indices de ``debut`` à ``fin - 1``
-(nous verrons plus tard comment calculer ``debut`` et ``fin``). Or, à chaque
-itération, il doit y avoir un échange des valeurs aux deux frontières :
+Here is an example of an iterative calculation on an array ``a[]`` where each
+process ``rank`` is responsible for the values at indices from ``start`` to
+``end - 1`` (we will see later how to calculate ``start`` and ``end``).
+However, at each iteration, there must be an exchange of values at both
+boundaries:
 
 .. figure:: ../images/partition-limits_en.svg
    :align: right
@@ -215,32 +215,32 @@ itération, il doit y avoir un échange des valeurs aux deux frontières :
 .. code-block:: python
     :emphasize-lines: 6,9,13,14,18
 
-    req_irecv_debut_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
-    req_isend_debut = comm.isend(a[debut], dest=rank - 1, tag=0)
-    req_isend_fin_1 = comm.isend(a[fin - 1], dest=rank + 1, tag=0)
-    req_irecv_fin = comm.irecv(source=rank + 1, tag=ANY_TAG)
+    req_irecv_start_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
+    req_isend_start = comm.isend(a[start], dest=rank - 1, tag=0)
+    req_isend_end_1 = comm.isend(a[end - 1], dest=rank + 1, tag=0)
+    req_irecv_end = comm.irecv(source=rank + 1, tag=ANY_TAG)
 
     for iteration in range(1000):
-        a[debut - 1] = req_irecv_debut_1.wait(status=None)
-        req_isend_debut.wait()
-        a[debut] = f(a[debut - 1], a[debut], a[debut + 1])
-        req_irecv_debut_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
-        req_isend_debut = comm.isend(a[debut], dest=rank - 1, tag=0)
+        a[start - 1] = req_irecv_start_1.wait(status=None)
+        req_isend_start.wait()
+        a[start] = f(a[start - 1], a[start], a[start + 1])
+        req_irecv_start_1 = comm.irecv(source=rank - 1, tag=ANY_TAG)
+        req_isend_start = comm.isend(a[start], dest=rank - 1, tag=0)
 
-        for i in range(debut + 1, fin - 1):  # debut + 1 ... fin - 2
+        for i in range(start + 1, end - 1):  # start + 1 ... end - 2
             a[i] = f(a[i - 1], a[i], a[i + 1])
 
-        req_isend_fin_1.wait()
-        a[fin] = req_irecv_fin.wait(status=None)
-        a[fin - 1] = f(a[fin - 2], a[fin - 1], a[fin])
-        req_isend_fin_1 = comm.isend(a[fin - 1], dest=rank + 1, tag=0)
-        req_irecv_fin = comm.irecv(source=rank + 1, tag=ANY_TAG)
+        req_isend_end_1.wait()
+        a[end] = req_irecv_end.wait(status=None)
+        a[end - 1] = f(a[end - 2], a[end - 1], a[end])
+        req_isend_end_1 = comm.isend(a[end - 1], dest=rank + 1, tag=0)
+        req_irecv_end = comm.irecv(source=rank + 1, tag=ANY_TAG)
 
-    a[debut - 1] = req_irecv_debut_1.wait(status=None)
-    req_isend_debut.wait()
-    req_isend_fin_1.wait()
-    a[fin] = req_irecv_fin.wait(status=None)
+    a[start - 1] = req_irecv_start_1.wait(status=None)
+    req_isend_start.wait()
+    req_isend_end_1.wait()
+    a[end] = req_irecv_end.wait(status=None)
 
-L’utilisation des communications non bloquantes permet d’effectuer différentes
-opérations pendant ces nombreuses communications, ce qui diminue l’impact des
-communications sur l’efficacité du calcul parallèle.
+The use of non-blocking communications allows different operations to be
+performed during these numerous communications, which reduces the impact of
+communications on the efficiency of parallel computing.
