@@ -299,6 +299,6 @@ Here is some information to know before programming any communication.
 - **Types of communication**
 
   - :doc:`Point-to-point <3-point-to-point>`: two processes of the same
-    communicator communicate by means of sending and receiving.
-  - :doc:`Collective <4-collectives>`: all processes of the same communicator
-    call upon the same function and communicate with each other.
+    communicator communicate pair-wise by means of sending and receiving.
+  - :doc:`Collective <4-collectives>`: all processes in a communicator call
+    the same *collective* function and communicate at the same time.
