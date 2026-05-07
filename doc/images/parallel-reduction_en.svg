@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   sodipodi:docname="parallel-reduction_fr.svg"
+   sodipodi:docname="parallel-reduction_en.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -673,7 +673,7 @@
          id="tspan5-24"
          x="100"
          y="21.5"
-         style="font-size:4.23333px;fill:#008000;fill-opacity:1">Exemples de réductions locales</tspan></text>
+         style="font-size:4.23333px;fill:#008000;fill-opacity:1">Examples of local reductions</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.23333px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -684,7 +684,7 @@
          id="tspan5-24-1"
          x="52"
          y="53"
-         style="font-size:4.23333px;fill:#008000;fill-opacity:1">Réduction finale</tspan></text>
+         style="font-size:4.23333px;fill:#008000;fill-opacity:1">Final reduction</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.23333px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
