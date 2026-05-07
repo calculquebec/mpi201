@@ -199,20 +199,20 @@ concatenated horizontally to form the resulting matrix :math:`C`.
 #. Load a ``scipy-stack`` module to gain access to NumPy.
 #. Run the program with two (2), three (3) and four (4) processes.
 
-Calculs collectifs
-------------------
+Collective calculations
+-----------------------
 
-Opérations de réduction
-'''''''''''''''''''''''
+Reduction operations
+''''''''''''''''''''
 
-C’est l’équivalent d’un ``gather`` avec une boucle effectuant une opération de
-réduction. Voici quelques opérations de réduction :
+This is the equivalent of a ``gather`` with a loop performing a reduction
+operation. Here are some reduction operations:
 
-.. list-table:: Opérateurs de réduction
+.. list-table:: Reduction operators
     :header-rows: 1
 
-    * - Opération
-      - Opérateur de type ``MPI.Op``
+    * - Operation
+      - Operator of type ``MPI.Op``
       - Op([3, 5])
     * - `Maximum
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.MAX.html>`__
@@ -222,102 +222,102 @@ réduction. Voici quelques opérations de réduction :
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.MIN.html>`__
       - ``MPI.MIN``
       - 3
-    * - `Somme
+    * - `Sum
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.SUM.html>`__
       - ``MPI.SUM``
       - 8
-    * - `Produit
+    * - `Product
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.PROD.html>`__
       - ``MPI.PROD``
       - 15
-    * - `ET logique
+    * - `Logical AND
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LAND.html>`__
       - ``MPI.LAND``
-      - Vrai
-    * - `OU logique
+      - True
+    * - `Logical OR
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LOR.html>`__
       - ``MPI.LOR``
-      - Vrai
-    * - `OU exclusif logique
+      - True
+    * - `Logical exclusive OR
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LXOR.html>`__
       - ``MPI.LXOR``
-      - Faux
-    * - `ET binaire
+      - False
+    * - `Binary AND
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BAND.html>`__
       - ``MPI.BAND``
       - 1 (011 & 101 = 001)
-    * - `OU binaire
+    * - `Binary OR
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BOR.html>`__
       - ``MPI.BOR``
       - 7 (011 | 101 = 111)
-    * - `OU exclusif binaire
+    * - `Binary exclusive OR
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BXOR.html>`__
       - ``MPI.BXOR``
       - 6 (011 ^ 101 = 110)
 
-Réduction avec ``reduce``
+Reduction with ``reduce``
 '''''''''''''''''''''''''
 
-Voici un exemple de `réduction
+Here is an example of a `reduction
 <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.reduce>`__
-effectuant une somme :
+that computes the sum of local results:
 
 .. figure:: ../images/mpi_reduce_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
-    # reduce(envoi: Any, op: Op=SUM, racine: int = 0) -> Any | None
+    # reduce(obj: Any, op: Op=SUM, root: int = 0) -> Any | None
 
     b = comm.reduce(a, MPI.SUM, 2)
 
-Réduction et diffusion avec ``allreduce``
-'''''''''''''''''''''''''''''''''''''''''
+Reduction and broadcasting with ``allreduce``
+'''''''''''''''''''''''''''''''''''''''''''''
 
-C’est l’équivalent de ``reduce`` + ``bcast``, mais en `plus efficace
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allreduce>`__ :
+It's the equivalent of ``reduce`` + ``bcast``, but it's `more efficient
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allreduce>`__:
 
 .. figure:: ../images/mpi_allreduce_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
-    # allreduce(envoi: Any, op: Op=SUM) -> Any
+    # allreduce(obj: Any, op: Op=SUM) -> Any
 
     b = comm.allreduce(a, MPI.SUM)
 
-Division de l’espace de calcul
-''''''''''''''''''''''''''''''
+Division of the calculation space
+'''''''''''''''''''''''''''''''''
 
-On se rappelle cette figure vue en :ref:`introduction <intro-linear-spaces>`:
+We recall this figure seen in the :ref:`introduction <intro-linear-spaces>`:
 
 .. figure:: ../images/parallel-reduction_en.svg
 
-- La stratégie qui consiste à diviser l’espace de calcul en portions plus
-  ou moins égales fonctionne encore.
+- The strategy of dividing the calculation space into more or less equal
+  portions still works.
 
   .. code-block:: python
 
-      borne_inf = rank * N // nranks        # borne inférieure
-      borne_sup = (rank + 1) * N // nranks  # borne supérieure
+      lo_bound = rank * N // nranks        # lower bound
+      up_bound = (rank + 1) * N // nranks  # upper bound
 
-      # Boucle dans l'intervalle : borne_inf <= k < borne_sup
-      for k in range(borne_inf, borne_sup):
+      # Loop in the interval: lo_bound <= k < up_bound
+      for k in range(lo_bound, up_bound):
           ...
 
-- Une seconde stratégie consiste à définir une boucle qui débute à ``rank``,
-  effectue des sauts de ``nranks`` et itère jusqu’à la fin de l’espace de
-  calcul. Ainsi, chaque processus débute la boucle à un indice différent.
+- A second strategy involves defining a loop that starts at ``rank``, makes
+  jumps of ``nranks``, and iterates until the end of the calculation space.
+  Thus, each process starts the loop at a different index.
 
   .. code-block:: python
 
       for k in range(rank, N, nranks):
           ...
 
-Selon le calcul effectué, il se pourrait que l’une de ces deux stratégies donne
-un résultat numérique plus stable.
+According to the calculation performed, it is possible that one of these two
+strategies will give a more stable numerical result.
 
 Exercice #5 - Approximation de :math:`\pi`
 ''''''''''''''''''''''''''''''''''''''''''
