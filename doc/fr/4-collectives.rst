@@ -190,10 +190,10 @@ ensuite concaténés horizontalement pour former la matrice résultante :math:`C
 **Instructions**
 
 #. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/mpi201-main/lab/mat_mul``.
+   ``cd ~/mpi201-main/lab/multiplication``.
 #. Dans `le fichier
-   <https://github.com/calculquebec/mpi201/blob/main/lab/mat_mul/mat_mul.py>`__
-   ``mat_mul.py``, éditez les lignes avec des ``...``. Essentiellement, le
+   <https://github.com/calculquebec/mpi201/blob/main/lab/multiplication/matrices_fr.py>`__
+   ``matrices_fr.py``, éditez les lignes avec des ``...``. Essentiellement, le
    processus racine :
 
    #. Crée la matrice ``A`` et **diffuse** cette matrice aux autres processus.

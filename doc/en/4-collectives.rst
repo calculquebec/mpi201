@@ -3,35 +3,34 @@ Collective communications
 
 `Français <../fr/4-collectives.html>`_
 
-Les communications collectives peuvent faire :
+Collective communications can:
 
-- Des **déplacements de données**.
+- **move data**;
 
   - ``comm.bcast()``
   - ``comm.scatter()``
   - ``comm.gather()``
 
-- Des **calculs collectifs**.
+- **do collective computations**.
 
   - ``comm.reduce()``, ``comm.allreduce()``
 
-Chaque appel à ces méthodes doit être fait par **tous les processus d’un même
-communicateur**.
+Each call to these methods must be made by **all processes of the same
+communicator**.
 
-Déplacements de données
------------------------
+Collective data transfers
+-------------------------
 
-Diffusion de données avec ``bcast``
-'''''''''''''''''''''''''''''''''''
+Broadcasting data with ``bcast``
+''''''''''''''''''''''''''''''''
 
-Pour envoyer les mêmes informations à tous les processus d’un même
-communicateur, on utilise une `méthode
+To send the same information to all processes in a communicator, a `method
 <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.bcast>`__
-effectuant une **diffusion** :
+performing a **broadcast** can be used:
 
 .. figure:: ../images/mpi_bcast_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
@@ -40,21 +39,20 @@ Avec ``mpi4py``, on aurait le code suivant :
     else:
         a = None
 
-    # bcast(objet: Any, racine: int = 0) -> Any
+    # bcast(obj: Any, root: int = 0) -> Any
 
     a = comm.bcast(a, 2)
 
-Distribution de données avec ``scatter``
-''''''''''''''''''''''''''''''''''''''''
+Data distribution with ``scatter``
+''''''''''''''''''''''''''''''''''
 
-Pour envoyer une portion des données à chaque processus d’un même
-communicateur, on utilise une `méthode
+To send a portion of the data to each process in a communicator, a `method
 <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.scatter>`__
-effectuant une **distribution** :
+performing a **distribution** can be used:
 
 .. figure:: ../images/mpi_scatter_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
@@ -63,75 +61,72 @@ Avec ``mpi4py``, on aurait le code suivant :
     else:
         a = None
 
-    # scatter(envoi: Sequence[Any] | None, racine: int = 0) -> Any
+    # scatter(seq_obj: Sequence[Any] | None, root: int = 0) -> Any
 
     b = comm.scatter(a, 2)
 
-Regroupement de données avec ``gather``
-'''''''''''''''''''''''''''''''''''''''
+Gathering data with ``gather``
+''''''''''''''''''''''''''''''
 
-Pour récupérer plusieurs portions de données dans un seul processus d’un
-communicateur, on utilise une `méthode
+To retrieve multiple data portions within a single process of a communicator,
+the ``gather`` `method
 <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.gather>`__
-effectuant un **regroupement** :
+can be used:
 
 .. figure:: ../images/mpi_gather_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
-    # gather(envoi: Any, racine: int = 0) -> list[Any] | None
+    # gather(obj: Any, root: int = 0) -> list[Any] | None
 
     b = comm.gather(a, 2)
 
     if rank == 2:
-        for valeur in b:
-            print(valeur)
+        for value in b:
+            print(value)
 
-Division de l’espace de travail
-'''''''''''''''''''''''''''''''
+Workspace partitioning
+''''''''''''''''''''''
 
-Avant de se lancer avec un exercice, revoyons comment diviser l’espace de
-travail. On se rappelle cette figure vue en
-:ref:`introduction <intro-two-dim-spaces>`:
+Before starting an exercise, let's review how to divide the workspace. Recall
+the figure we saw in the :ref:`introduction <intro-two-dim-spaces>`:
 
 .. figure:: ../images/parallel-array-2d.svg
 
-Une première stratégie consiste à diviser l’espace de travail en portions plus
-ou moins égales **selon une dimension**. L’objectif est de déterminer à quel
-indice un processus débutera son calcul et jusqu’à quel indice (exclus) il doit
-calculer.
+One strategy is to divide the workspace into more or less equal portions
+**along one dimension**. The goal is to determine at which index a process will
+begin its calculation and up to which (excluded) index it must calculate.
 
-- Puisque la taille ``N`` d’une dimension n’est pas nécessairement un multiple
-  entier de ``nranks``, on ne peut pas faire une division entière de ``N`` par
-  ``nranks`` pour définir une taille unique de portion. On risquerait alors
-  d’oublier des éléments à calculer.
+- Since the size ``N`` of a dimension is not necessarily an integer multiple of
+  ``nranks``, we cannot perform an integer division of ``N`` by ``nranks`` to
+  define a single portion size. This would risk omitting elements from the
+  calculation.
 
   .. code-block:: python
 
-      N = 18      # éléments
-      nranks = 5  # processus ou portions
-      taille_portion = N // nranks  # 3 éléments par processus
+      N = 18      # elements
+      nranks = 5  # processes or portions
+      portion_size = N // nranks  # 3 elements per process
 
-      assert taille_portion * nranks == N, f'{taille_portion * nranks} != {N}'
+      assert portion_size * nranks == N, f'{portion_size * nranks} != {N}'
 
       # AssertionError: 15 != 18
 
-- Par contre, on peut calculer une borne inférieure et une borne supérieure
-  pour chaque portion en fonction de la variable ``rank``. Dans le code
-  ci-dessous, on voit deux façons de calculer la borne inférieure ``debut``.
-  Par la suite, il faudrait utiliser ``rank + 1`` dans les mêmes formules pour
-  calculer la borne supérieure ``fin``.
+- However, we can calculate a lower bound and an upper bound for each portion
+  based on the variable ``rank``. In the code below, we see two ways to
+  calculate the lower bound ``start``. Subsequently, we would need to use
+  ``rank + 1`` in the same formulas to calculate the upper bound ``end``.
 
   .. code-block:: python
 
       for rank in range(nranks):
-          taille_portion = N / nranks  # 3.6
-          debut_par_taille_float = int(taille_portion * rank)
-          debut_produit_dabord = rank * N // nranks
+          portion_size = N / nranks  # 3.6
+          start_by_size_float = int(portion_size * rank)
+          start_by_product_first = rank * N // nranks
 
-          print(debut_par_taille_float, debut_produit_dabord)
+          print(start_by_size_float, start_by_product_first)
 
       # 0 0
       # 3 3
@@ -139,71 +134,70 @@ calculer.
       # 10 10
       # 14 14
 
-- Dans l’exemple ci-dessous, la borne supérieure ``fin`` du processus ``rank``
-  correspond à la borne inférieure ``debut`` du processus ``rank + 1``. Ainsi,
-  ce calcul des bornes permet de n’oublier aucun des ``N`` éléments tout en
-  ayant des portions de calcul plus ou moins égales.
+- In the example below, the upper bound ``end`` of the ``rank`` process
+  corresponds to the lower bound ``start`` of the ``rank + 1`` process. Thus,
+  this bound calculation ensures that none of the ``N`` elements are overlooked
+  while maintaining roughly equal calculation portions.
 
   .. code-block:: python
 
       for rank in range(nranks):
-          # Si rank vaut 0 (le premier rang), debut vaut 0
-          debut = rank * N // nranks
+          # If rank is 0 (the first rank), then start is index 0
+          start = rank * N // nranks
 
-          # Si rank vaut nranks-1 (le dernier rang), fin vaut N
-          fin = (rank + 1) * N // nranks
+          # If rank is nranks-1 (the last rank), then end is index N
+          end = (rank + 1) * N // nranks
 
-          print(f'{rank = } : {debut = :2d}, {fin = :2d} (diff = {fin-debut})')
+          print(f'{rank = } : {start = :2d}, {end = :2d} (diff = {end-start})')
 
-      # rank = 0 : debut =  0, fin =  3 (diff = 3)
-      # rank = 1 : debut =  3, fin =  7 (diff = 4)
-      # rank = 2 : debut =  7, fin = 10 (diff = 3)
-      # rank = 3 : debut = 10, fin = 14 (diff = 4)
-      # rank = 4 : debut = 14, fin = 18 (diff = 4)
+      # rank = 0 : start =  0, end =  3 (diff = 3)
+      # rank = 1 : start =  3, end =  7 (diff = 4)
+      # rank = 2 : start =  7, end = 10 (diff = 3)
+      # rank = 3 : start = 10, end = 14 (diff = 4)
+      # rank = 4 : start = 14, end = 18 (diff = 4)
 
-- En pratique, chaque processus n'a qu'un seul ``rank``, alors les deux bornes
-  de la portion sont calculées une seule fois.
+- In practice, each process has only one ``rank``, so the two bounds of the
+  portion are calculated only once.
 
   .. code-block:: python
 
-      debut = rank * N // nranks
-      fin = (rank + 1) * N // nranks
+      start = rank * N // nranks
+      end = (rank + 1) * N // nranks
 
-      # Une sélection au choix
-      portion_h = matrice[debut:fin, :]  # Une portion de quelques lignes
-      portion_v = matrice[:, debut:fin]  # Une portion de quelques colonnes
+      # A selection of your choice
+      portion_h = matrix[start:end, :]  # A portion of a few lines
+      portion_v = matrix[:, start:end]  # A portion of a few columns
 
-Exercice #4 - Multiplication de matrices
-''''''''''''''''''''''''''''''''''''''''
+Exercise #4 - Matrix multiplication
+'''''''''''''''''''''''''''''''''''
 
-**Objectif** : partager le calcul d’une multiplication de matrices.
+**Objective**: share the calculation of a matrix multiplication.
 
-Étant donné que `le produit matriciel
-<https://fr.wikipedia.org/wiki/Produit_matriciel>`__ :math:`A \times B = C`
-peut se calculer colonne par colonne, chaque processus aura la même matrice
-:math:`A` et une portion unique de la matrice :math:`B`, soit un bloc de
-quelques colonnes consécutives de :math:`B`. Les produits partiels seront
-ensuite concaténés horizontalement pour former la matrice résultante :math:`C`.
+Since the `matrix multiplication
+<https://en.wikipedia.org/wiki/Matrix_multiplication>`__ :math:`A \times B = C`
+can be calculated column by column, each process will have the same matrix
+:math:`A` and a unique portion of matrix :math:`B`, namely a block of a few
+consecutive columns from :math:`B`. The partial products will then be
+concatenated horizontally to form the resulting matrix :math:`C`.
 
 .. figure:: ../images/parallel-mat-mul.svg
 
 **Instructions**
 
-#. Allez dans le répertoire de l’exercice avec la commande
-   ``cd ~/mpi201-main/lab/mat_mul``.
-#. Dans `le fichier
-   <https://github.com/calculquebec/mpi201/blob/main/lab/mat_mul/mat_mul.py>`__
-   ``mat_mul.py``, éditez les lignes avec des ``...``. Essentiellement, le
-   processus racine :
+#. Go to the exercise directory with ``cd ~/mpi201-main/lab/multiplication``.
+#. In `the file
+   <https://github.com/calculquebec/mpi201/blob/main/lab/multiplication/matrices_en.py>`__
+   ``matrices_en.py``, edit the lines with ``...``. Essentially, the root
+   process:
 
-   #. Crée la matrice ``A`` et **diffuse** cette matrice aux autres processus.
-   #. Crée des portions plus ou moins égales de ``B`` dans ``b_list`` et
-      **distribue** une portion à chaque processus.
-   #. **Regroupe** les multiplications partielles dans ``c_list`` et génère la
-      matrice résultante ``C``.
+   #. Creates matrix ``A`` and **broadcasts** this matrix to other processes.
+   #. Creates roughly equal portions of ``B`` in ``b_list`` and **distributes**
+      one portion to each process.
+   #. **Gathers** the partial multiplications in ``c_list`` and generates the
+      resulting matrix ``C``.
 
-#. Chargez un module ``scipy-stack`` pour avoir accès à NumPy.
-#. Lancez le programme avec deux (2), trois (3) et quatre (4) processus.
+#. Load a ``scipy-stack`` module to gain access to NumPy.
+#. Run the program with two (2), three (3) and four (4) processes.
 
 Calculs collectifs
 ------------------
