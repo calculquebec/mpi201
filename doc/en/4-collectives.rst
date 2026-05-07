@@ -300,11 +300,11 @@ We recall this figure seen in the :ref:`introduction <intro-linear-spaces>`:
 
   .. code-block:: python
 
-      lo_bound = rank * N // nranks        # lower bound
-      up_bound = (rank + 1) * N // nranks  # upper bound
+      start = rank * N // nranks      # lower bound
+      end = (rank + 1) * N // nranks  # upper bound
 
-      # Loop in the interval: lo_bound <= k < up_bound
-      for k in range(lo_bound, up_bound):
+      # Loop in the interval: start <= k < end
+      for k in range(start, end):
           ...
 
 - A second strategy involves defining a loop that starts at ``rank``, makes
@@ -319,70 +319,67 @@ We recall this figure seen in the :ref:`introduction <intro-linear-spaces>`:
 According to the calculation performed, it is possible that one of these two
 strategies will give a more stable numerical result.
 
-Exercice #5 - Approximation de :math:`\pi`
+Exercise #5 - Approximation of :math:`\pi`
 ''''''''''''''''''''''''''''''''''''''''''
 
-**Objectif** : diviser le calcul d’une longue série approximant la constante
-:math:`\pi`.
+**Objective**: divide the calculation of a long series approximating the
+constant :math:`\pi`.
 
-Étant donné :
+Given:
 
 .. math::
 
     \pi = 4 \times \frac{\pi}{4} = 4 \times \arctan(1)
 
-Et étant donné `la série de Taylor
-<https://fr.wikipedia.org/wiki/S%C3%A9rie_de_Taylor>`__ :
+And given `the Taylor series <https://en.wikipedia.org/wiki/Taylor_series>`__:
 
 .. math::
 
     \arctan(1) = \sum_{k=0}^{\infty} \frac{(-1)^k}{2k + 1}
 
-Il est donc possible d'approximer :math:`\pi` au moyen de :math:`N` termes :
+It is therefore possible to approximate :math:`\pi` with :math:`N` terms:
 
 .. math::
 
     \pi \approx 4 \times \sum_{k=0}^{N - 1} \frac{(-1)^k}{2k + 1}
 
-Avec :
+With:
 
 .. math::
 
     4 \times (-1)^k & = & \: 4 \times (1 - 2 \times (k \bmod 2)) \\\\
                     & = & \: 4 - 8 \times (k \bmod 2)
 
-Numériquement, l’accumulation des termes doit se faire dans l’ordre inverse,
-c’est-à-dire en commençant par le plus petit des termes, donc avec l’indice
-:math:`k=N-1`. Cela permet d’accumuler avec précision les plus petits termes
-tout en minimisant l’accumulation d’erreurs dans les bits les moins
-significatifs du résultat final.
+Numerically, the accumulation of terms must be done in reverse order, that is,
+starting with the smallest term, therefore with the index :math:`k=N-1`. This
+allows the smallest terms to be accumulated accurately while minimizing the
+accumulation of errors in the least significant bits of the final result.
 
 **Instructions**
 
-#. Allez dans le répertoire de l’exercice avec la commande
+#. Go to the exercise directory with
    ``cd ~/mpi201-main/lab/pi``.
-#. Dans `le fichier
-   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-sauts.py>`__
-   ``pi-sauts.py``, complétez la conversion du programme séquentiel en
-   programme utilisant MPI.
+#. In `the file
+   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-jumps.py>`__
+   ``pi-jumps.py``, complete the conversion of the sequential program into a
+   program using MPI.
 
-   #. Utilisez la stratégie qui consiste à **faire des sauts** de ``nranks``
-      dans une boucle débutant à une valeur de ``k`` égale à ``rank``.
-   #. Programmez une réduction des variables locales ``somme`` dans la variable
-      ``pi`` du processus 0.
-   #. Lancez le programme avec ``1``, ``2``, ``3`` et ``4`` processus.
+   #. Use the strategy of **making jumps** of ``nranks`` in a loop starting at
+      a value of ``k`` equal to ``rank``.
+   #. Program a reduction of the local variables ``my_sum`` into the variable
+      ``pi`` of process 0.
+   #. Run the program with ``1``, ``2``, ``3`` and ``4`` processes.
 
-      #. Utilisez ``time -p`` pour mesurer le temps réel écoulé. Par exemple,
-         ``srun -n 2 time -p python pi-sauts.py``.
-      #. Observez la précision de l’approximation de pi et le temps ``real`` de
-         chaque processus.
+      #. Use ``time -p`` to measure the actual elapsed time. For example,
+         ``srun -n 2 time -p python pi-jumps.py``.
+      #. Observe the accuracy of the approximation of pi and the ``real`` time
+         of each process.
 
-#. Dans `le fichier
-   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-blocs.py>`__
-   ``pi-blocs.py``, complétez la conversion du programme séquentiel en
-   programme utilisant MPI.
+#. In `the file
+   <https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-portions.py>`__
+   ``pi-portions.py``, complete the conversion of the sequential program into a
+   program using MPI.
 
-   #. Utilisez la stratégie qui consiste à **boucler d’une borne inférieure à
-      une borne supérieure**.
-   #. Refaites les étapes 2.2 (réduction) et 2.3 (expérimentation) ci-dessus,
-      mais pour le fichier ``pi-blocs.py``.
+   #. Use the strategy of **looping from a lower bound to an upper bound**.
+   #. Repeat steps 2.2 (reduction) and 2.3 (experimentation) above, but for the
+      file ``pi-portions.py``.
