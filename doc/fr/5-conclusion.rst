@@ -7,7 +7,7 @@ Rappel de quelques concepts du parallélisme :
 
 - Communications et synchronisations
 
-  - Dépendances entre processeurs
+  - Dépendances entre les processus
 
 - `Scalabilité <https://docs.alliancecan.ca/wiki/Scalability/fr>`__ et
   `loi d’Amdahl <https://fr.wikipedia.org/wiki/Loi_d%27Amdahl>`__
@@ -26,7 +26,7 @@ Une bibliothèque MPI comme ``mpi4py`` facilite les communications :
 
 - point-à-point
 
-  - ``comm.send(envoi, dest=dest, tag=etiquette)``
+  - ``comm.send(envoi, dest, tag=etiquette)``
   - ``recept = comm.recv(source=source, tag=etiquette, status=etat)``
 
 - non-bloquantes
