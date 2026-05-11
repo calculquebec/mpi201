@@ -68,8 +68,10 @@ portions de calcul sont inégales.
 Communications avec des tableaux NumPy
 ''''''''''''''''''''''''''''''''''''''
 
-Dans les chapitres de l’atelier, les communications utilisaient la
-sérialisation des objets pour transférer des données. Or, pour l’envoi de
+Dans les chapitres de l’atelier, les fonctions de communication utilisées
+passaient par une sérialisation et une reconstruction des objets via le
+`module <https://docs.python.org/3/library/pickle.html#module-pickle>`__
+``pickle`` pour transférer des données. Or, pour l’envoi de
 tableaux NumPy, cette étape de sérialisation est inutilement longue, car les
 données sont déjà uniformes et sans structure complexe. De plus, MPI est déjà
 conçu pour transférer des tableaux de données standards (des entiers ou des
