@@ -19,14 +19,14 @@ Aide-mémoire
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Finalize.html>`__
       - `MPI_Finalize()
         <https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf#subsection.11.2.2>`__
-    * - Avortement
+    * - Quitter en cas d’erreur
       - ``sys.exit(None)``
       - `MPI_Abort()
         <https://www.mpi-forum.org/docs/mpi-4.1/mpi41-report.pdf#subsection.11.4.2>`__
     * -
       -
       -
-    * - Communicateur
+    * - Communicateur global
       - `MPI.COMM_WORLD
         <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.COMM_WORLD.html>`__
       - `MPI_COMM_WORLD
