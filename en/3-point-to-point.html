@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Point-to-point communications &#8212; MPI201</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-point-to-point';</script>
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Collective communications" href="4-collectives.html" />
+    <link rel="prev" title="First steps with MPI" href="2-mpi.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Parallel Programming with MPI4py (MPI201)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1-introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2-mpi.html">First steps with MPI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Point-to-point communications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-collectives.html">Collective communications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-appendix.html">Appendix</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="90-cheatsheet.html">Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99-bibliography.html">Bibliography</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External links</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.alliancecan.ca/wiki/Technical_documentation/en">Alliance Technical Documentation</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.calculquebec.ca/en/academic-research-services/training/">Calcul Québec Training</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/3-point-to-point.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Point-to-point communications</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sending-and-receiving-blocking">Sending and receiving (blocking)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-sending-and-receiving">Example - Sending and receiving</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sending-a-matrix">Exercise #2 - Sending a matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#avoiding-deadlock-situations">Avoiding deadlock situations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-1">Solution 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-exchange-two-lists">Exercise #3 - Exchange two lists</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-2">Solution 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-blocking-communications">Non-blocking communications</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="point-to-point-communications">
+<h1>Point-to-point communications<a class="headerlink" href="#point-to-point-communications" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="../fr/3-point-a-point.html">Français</a></p>
+<ul class="simple">
+<li><p>Point-to-point communications are <em>local</em>, which means that only <strong>two
+processes</strong> are involved: they are the only ones that call reciprocal
+communication functions and are the only ones involved in the exchange.</p>
+<ul>
+<li><p>Send and receive functions are always called in pairs by different
+processes.</p></li>
+</ul>
+</li>
+<li><p>Send and receive functions can be blocking or non-blocking.</p></li>
+</ul>
+<section id="sending-and-receiving-blocking">
+<h2>Sending and receiving (blocking)<a class="headerlink" href="#sending-and-receiving-blocking" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, data transmissions are made from a communicator (<code class="docutils literal notranslate"><span class="pre">comm</span></code>) and
+the <code class="docutils literal notranslate"><span class="pre">send()</span></code> <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.send">method</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">comm</span></code>: for example, <code class="docutils literal notranslate"><span class="pre">MPI.COMM_WORLD</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">obj</span></code>: any object that can be serialized via <a class="reference external" href="https://docs.python.org/3/library/pickle.html#module-pickle">pickle</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: rank of receiving process (destination).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tag</span></code>: user-defined number (can be used to check reception).</p></li>
+</ul>
+<p>Reciprocally, data reception occurs from the same communicator and the
+<code class="docutils literal notranslate"><span class="pre">recv()</span></code> <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.recv">method</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: a variable or part of a modifiable object, to receive the
+deserialized object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source</span></code>: <code class="docutils literal notranslate"><span class="pre">MPI.ANY_SOURCE</span></code> (default value) or the rank of a specific
+sender.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tag</span></code>: <code class="docutils literal notranslate"><span class="pre">MPI.ANY_TAG</span></code> (default value) or a specific tag.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: <code class="docutils literal notranslate"><span class="pre">None</span></code> (default value) or an object of type <code class="docutils literal notranslate"><span class="pre">MPI.Status</span></code>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">.count</span></code>: number of bytes received.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.source</span></code>: rank of the source of the received message.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.tag</span></code>: tag of the received message.</p></li>
+</ul>
+</li>
+</ul>
+<section id="example-sending-and-receiving">
+<h3>Example - Sending and receiving<a class="headerlink" href="#example-sending-and-receiving" title="Link to this heading">#</a></h3>
+<p>Each process has its own variables <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>. Process 2 sends the value
+of its variable <code class="docutils literal notranslate"><span class="pre">a</span></code> to process 0, which receives this value in its variable
+<code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+<figure class="align-default">
+<img alt="_images/mpi_point2point_en.svg" src="_images/mpi_point2point_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, here is an implementation of this communication:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">746</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">746</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="exercise-2-sending-a-matrix">
+<h3>Exercise #2 - Sending a matrix<a class="headerlink" href="#exercise-2-sending-a-matrix" title="Link to this heading">#</a></h3>
+<p><strong>Objective</strong>: sending a 4x4 matrix from process 0 to process 1.</p>
+<p><strong>Instructions</strong></p>
+<ol class="arabic simple">
+<li><p>Go to the exercise directory with
+<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/mpi201-main/lab/send_matrix</span></code>.</p></li>
+<li><p>Edit <a class="reference external" href="https://github.com/calculquebec/mpi201/blob/main/lab/send_matrix/send_matrix.py">the file</a>
+<code class="docutils literal notranslate"><span class="pre">send_matrix.py</span></code> to program the matrix transfer.</p></li>
+<li><p>Run this program with two (2) processes.</p></li>
+</ol>
+</section>
+</section>
+<section id="avoiding-deadlock-situations">
+<h2>Avoiding deadlock situations<a class="headerlink" href="#avoiding-deadlock-situations" title="Link to this heading">#</a></h2>
+<figure class="align-right">
+<a class="reference internal image-reference" href="_images/mpi_ssend-2ranks.svg"><img alt="_images/mpi_ssend-2ranks.svg" src="_images/mpi_ssend-2ranks.svg" style="width: 360px;" />
+</a>
+</figure>
+<p>Consider the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">    <span class="n">comm</span><span class="o">.</span><span class="n">ssend</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<span class="hll">    <span class="n">comm</span><span class="o">.</span><span class="n">ssend</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.ssend">synchronous method</a>
+<code class="docutils literal notranslate"><span class="pre">ssend()</span></code> is a version of <code class="docutils literal notranslate"><span class="pre">send()</span></code> without a buffer, which makes it
+always blocking (<code class="docutils literal notranslate"><span class="pre">send()</span></code> may not block for small messages).</p></li>
+<li><p>In the above case, the two processes wait until the other calls <code class="docutils literal notranslate"><span class="pre">recv()</span></code>.
+This code is hence <strong>buggy</strong> and causes a deadlock!</p></li>
+<li><p>And even with <code class="docutils literal notranslate"><span class="pre">send()</span></code> instead of <code class="docutils literal notranslate"><span class="pre">ssend()</span></code>, the code is risky. The
+amount of buffer memory for <code class="docutils literal notranslate"><span class="pre">send()</span></code> is not defined, so the code may
+eventually block when exchanging large messages.</p></li>
+</ul>
+<section id="solution-1">
+<h3>Solution 1<a class="headerlink" href="#solution-1" title="Link to this heading">#</a></h3>
+<figure class="align-right">
+<a class="reference internal image-reference" href="_images/mpi_ssend-recv.svg"><img alt="_images/mpi_ssend-recv.svg" src="_images/mpi_ssend-recv.svg" style="width: 360px;" />
+</a>
+</figure>
+<p>Change the order of calls to <code class="docutils literal notranslate"><span class="pre">ssend()</span></code> and <code class="docutils literal notranslate"><span class="pre">recv()</span></code> for one of the two
+processes. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">comm</span><span class="o">.</span><span class="n">ssend</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<span class="hll">    <span class="n">a</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">comm</span><span class="o">.</span><span class="n">ssend</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>One can generalize this technique to more processes:</p>
+<ul class="simple">
+<li><p>Evenly ranked processes start by sending.</p></li>
+<li><p>Oddly ranked processes start by receiving.</p></li>
+</ul>
+</section>
+<section id="exercise-3-exchange-two-lists">
+<h3>Exercise #3 - Exchange two lists<a class="headerlink" href="#exercise-3-exchange-two-lists" title="Link to this heading">#</a></h3>
+<p><strong>Objective</strong>: exchange a small list with data.</p>
+<p><strong>Instructions</strong></p>
+<ol class="arabic simple">
+<li><p>Go to the exercise directory with
+<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/mpi201-main/lab/exchange</span></code>.</p></li>
+<li><p>Edit <a class="reference external" href="https://github.com/calculquebec/mpi201/blob/main/lab/exchange/exchange.py">the file</a>
+<code class="docutils literal notranslate"><span class="pre">exchange.py</span></code> to program the data exchange.</p></li>
+<li><p>Run this program with two (2) processes.</p></li>
+</ol>
+</section>
+<section id="solution-2">
+<h3>Solution 2<a class="headerlink" href="#solution-2" title="Link to this heading">#</a></h3>
+<figure class="align-right">
+<a class="reference internal image-reference" href="_images/mpi_isend-2ranks.svg"><img alt="_images/mpi_isend-2ranks.svg" src="_images/mpi_isend-2ranks.svg" style="width: 360px;" />
+</a>
+</figure>
+<p>Non-blocking communications are used to initiate the transfers. Even when the
+send hasn’t finished yet, each process can start the receive, so deadlocks are
+avoided. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">    <span class="n">request</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<span class="hll">    <span class="n">request</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="hll"><span class="n">request</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</span></pre></div>
+</div>
+<p>In addition to unblocking both processes, this solution allows calculations to
+resume more quickly.</p>
+</section>
+</section>
+<section id="non-blocking-communications">
+<h2>Non-blocking communications<a class="headerlink" href="#non-blocking-communications" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the communicators have the following <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html">methods</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">request</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="n">request</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+<span class="hll"><span class="n">request</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">ANY_SOURCE</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">ANY_TAG</span><span class="p">)</span>
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>You don’t need to make both send and receive non-blocking (all combinations
+are permitted).</p></li>
+<li><p>After calling <code class="docutils literal notranslate"><span class="pre">isend()</span></code> or <code class="docutils literal notranslate"><span class="pre">irecv()</span></code>, one must use the <code class="docutils literal notranslate"><span class="pre">request</span></code> object
+returned by the call to ensure that the communication has terminated.</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">wait()</span></code> <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Request.html#mpi4py.MPI.Request.wait">method</a>
+is blocking. When it returns, the communication has finished.</p></li>
+<li><p>During a reception, it is <code class="docutils literal notranslate"><span class="pre">request.wait()</span></code> which returns the received
+data in a deserialized object.</p></li>
+</ul>
+</li>
+<li><p>Only once the communication has finished one can reuse the arrays that were
+sent or received!</p></li>
+</ul>
+<p>Here is an example of an iterative calculation on an array <code class="docutils literal notranslate"><span class="pre">a[]</span></code> where each
+process <code class="docutils literal notranslate"><span class="pre">rank</span></code> is responsible for the values at indices from <code class="docutils literal notranslate"><span class="pre">start</span></code> to
+<code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></code> (we will see later how to calculate <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code>).
+However, at each iteration, there must be an exchange of values at both
+boundaries:</p>
+<figure class="align-right">
+<img alt="_images/partition-limits_en.svg" src="_images/partition-limits_en.svg" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">req_irecv_start_1</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">ANY_TAG</span><span class="p">)</span>
+<span class="n">req_isend_start</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">dest</span><span class="o">=</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">req_isend_end_1</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dest</span><span class="o">=</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">req_irecv_end</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">ANY_TAG</span><span class="p">)</span>
+
+<span class="hll"><span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+</span>    <span class="n">a</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">req_irecv_start_1</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">req_isend_start</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="hll">    <span class="n">a</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+</span>    <span class="n">req_irecv_start_1</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">ANY_TAG</span><span class="p">)</span>
+    <span class="n">req_isend_start</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">dest</span><span class="o">=</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="hll">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>  <span class="c1"># start + 1 ... end - 2</span>
+</span><span class="hll">        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+</span>
+    <span class="n">req_isend_end_1</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="n">req_irecv_end</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="hll">    <span class="n">a</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">2</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">end</span><span class="p">])</span>
+</span>    <span class="n">req_isend_end_1</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dest</span><span class="o">=</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">req_irecv_end</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">ANY_TAG</span><span class="p">)</span>
+
+<span class="n">a</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">req_irecv_start_1</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">req_isend_start</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">req_isend_end_1</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">a</span><span class="p">[</span><span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="n">req_irecv_end</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The use of non-blocking communications allows different operations to be
+performed during these numerous communications, which reduces the impact of
+communications on the efficiency of parallel computing.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="2-mpi.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">First steps with MPI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="4-collectives.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Collective communications</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sending-and-receiving-blocking">Sending and receiving (blocking)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-sending-and-receiving">Example - Sending and receiving</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sending-a-matrix">Exercise #2 - Sending a matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#avoiding-deadlock-situations">Avoiding deadlock situations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-1">Solution 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-exchange-two-lists">Exercise #3 - Exchange two lists</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-2">Solution 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-blocking-communications">Non-blocking communications</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Calcul Québec
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Calcul Québec.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

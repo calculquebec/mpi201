@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Collective communications &#8212; MPI201</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-collectives';</script>
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Conclusion" href="5-conclusion.html" />
+    <link rel="prev" title="Point-to-point communications" href="3-point-to-point.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Parallel Programming with MPI4py (MPI201)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1-introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2-mpi.html">First steps with MPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-point-to-point.html">Point-to-point communications</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Collective communications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-conclusion.html">Conclusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-appendix.html">Appendix</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="90-cheatsheet.html">Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="99-bibliography.html">Bibliography</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External links</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.alliancecan.ca/wiki/Technical_documentation/en">Alliance Technical Documentation</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.calculquebec.ca/en/academic-research-services/training/">Calcul Québec Training</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/4-collectives.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Collective communications</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-data-transfers">Collective data transfers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#broadcasting-data-with-bcast">Broadcasting data with <code class="docutils literal notranslate"><span class="pre">bcast</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-distribution-with-scatter">Data distribution with <code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gathering-data-with-gather">Gathering data with <code class="docutils literal notranslate"><span class="pre">gather</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workspace-partitioning">Workspace partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-matrix-multiplication">Exercise #4 - Matrix multiplication</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-calculations">Collective calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-operations">Reduction operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-with-reduce">Reduction with <code class="docutils literal notranslate"><span class="pre">reduce</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-and-broadcasting-with-allreduce">Reduction and broadcasting with <code class="docutils literal notranslate"><span class="pre">allreduce</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#division-of-the-calculation-space">Division of the calculation space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-approximation-of-pi">Exercise #5 - Approximation of <span class="math notranslate nohighlight">\(\pi\)</span></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="collective-communications">
+<h1>Collective communications<a class="headerlink" href="#collective-communications" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="../fr/4-collectives.html">Français</a></p>
+<p>Collective communications can:</p>
+<ul class="simple">
+<li><p><strong>move data</strong>;</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">comm.bcast()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comm.scatter()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comm.gather()</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>do collective computations</strong>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">comm.reduce()</span></code>, <code class="docutils literal notranslate"><span class="pre">comm.allreduce()</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p>Each call to these methods must be made by <strong>all processes of the same
+communicator</strong>.</p>
+<section id="collective-data-transfers">
+<h2>Collective data transfers<a class="headerlink" href="#collective-data-transfers" title="Link to this heading">#</a></h2>
+<section id="broadcasting-data-with-bcast">
+<h3>Broadcasting data with <code class="docutils literal notranslate"><span class="pre">bcast</span></code><a class="headerlink" href="#broadcasting-data-with-bcast" title="Link to this heading">#</a></h3>
+<p>To send the same information to all processes in a communicator, a <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.bcast">method</a>
+performing a <strong>broadcast</strong> can be used:</p>
+<figure class="align-default">
+<img alt="_images/mpi_bcast_en.svg" src="_images/mpi_bcast_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the code would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># bcast(obj: Any, root: int = 0) -&gt; Any</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="data-distribution-with-scatter">
+<h3>Data distribution with <code class="docutils literal notranslate"><span class="pre">scatter</span></code><a class="headerlink" href="#data-distribution-with-scatter" title="Link to this heading">#</a></h3>
+<p>To send a portion of the data to each process in a communicator, a <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.scatter">method</a>
+performing a <strong>distribution</strong> can be used:</p>
+<figure class="align-default">
+<img alt="_images/mpi_scatter_en.svg" src="_images/mpi_scatter_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the code would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># scatter(seq_obj: Sequence[Any] | None, root: int = 0) -&gt; Any</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="gathering-data-with-gather">
+<h3>Gathering data with <code class="docutils literal notranslate"><span class="pre">gather</span></code><a class="headerlink" href="#gathering-data-with-gather" title="Link to this heading">#</a></h3>
+<p>To retrieve multiple data portions within a single process of a communicator,
+the <code class="docutils literal notranslate"><span class="pre">gather</span></code> <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.gather">method</a>
+can be used:</p>
+<figure class="align-default">
+<img alt="_images/mpi_gather_en.svg" src="_images/mpi_gather_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the code would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># gather(obj: Any, root: int = 0) -&gt; list[Any] | None</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="workspace-partitioning">
+<h3>Workspace partitioning<a class="headerlink" href="#workspace-partitioning" title="Link to this heading">#</a></h3>
+<p>Before starting an exercise, let’s review how to divide the workspace. Recall
+the figure we saw in the <a class="reference internal" href="1-introduction.html#intro-two-dim-spaces"><span class="std std-ref">introduction</span></a>:</p>
+<figure class="align-default">
+<img alt="_images/parallel-array-2d.svg" src="_images/parallel-array-2d.svg" />
+</figure>
+<p>One strategy is to divide the workspace into more or less equal portions
+<strong>along one dimension</strong>. The goal is to determine at which index a process will
+begin its calculation and up to which (excluded) index it must calculate.</p>
+<ul>
+<li><p>Since the size <code class="docutils literal notranslate"><span class="pre">N</span></code> of a dimension is not necessarily an integer multiple of
+<code class="docutils literal notranslate"><span class="pre">nranks</span></code>, we cannot perform an integer division of <code class="docutils literal notranslate"><span class="pre">N</span></code> by <code class="docutils literal notranslate"><span class="pre">nranks</span></code> to
+define a single portion size. This would risk omitting elements from the
+calculation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">18</span>      <span class="c1"># elements</span>
+<span class="n">nranks</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># processes or portions</span>
+<span class="n">portion_size</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>  <span class="c1"># 3 elements per process</span>
+
+<span class="k">assert</span> <span class="n">portion_size</span> <span class="o">*</span> <span class="n">nranks</span> <span class="o">==</span> <span class="n">N</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">portion_size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nranks</span><span class="si">}</span><span class="s1"> != </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="c1"># AssertionError: 15 != 18</span>
+</pre></div>
+</div>
+</li>
+<li><p>However, we can calculate a lower bound and an upper bound for each portion
+based on the variable <code class="docutils literal notranslate"><span class="pre">rank</span></code>. In the code below, we see two ways to
+calculate the lower bound <code class="docutils literal notranslate"><span class="pre">start</span></code>. Subsequently, we would need to use
+<code class="docutils literal notranslate"><span class="pre">rank</span> <span class="pre">+</span> <span class="pre">1</span></code> in the same formulas to calculate the upper bound <code class="docutils literal notranslate"><span class="pre">end</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nranks</span><span class="p">):</span>
+    <span class="n">portion_size</span> <span class="o">=</span> <span class="n">N</span> <span class="o">/</span> <span class="n">nranks</span>  <span class="c1"># 3.6</span>
+    <span class="n">start_by_size_float</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">portion_size</span> <span class="o">*</span> <span class="n">rank</span><span class="p">)</span>
+    <span class="n">start_by_product_first</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">start_by_size_float</span><span class="p">,</span> <span class="n">start_by_product_first</span><span class="p">)</span>
+
+<span class="c1"># 0 0</span>
+<span class="c1"># 3 3</span>
+<span class="c1"># 7 7</span>
+<span class="c1"># 10 10</span>
+<span class="c1"># 14 14</span>
+</pre></div>
+</div>
+</li>
+<li><p>In the example below, the upper bound <code class="docutils literal notranslate"><span class="pre">end</span></code> of the <code class="docutils literal notranslate"><span class="pre">rank</span></code> process
+corresponds to the lower bound <code class="docutils literal notranslate"><span class="pre">start</span></code> of the <code class="docutils literal notranslate"><span class="pre">rank</span> <span class="pre">+</span> <span class="pre">1</span></code> process. Thus,
+this bound calculation ensures that none of the <code class="docutils literal notranslate"><span class="pre">N</span></code> elements are overlooked
+while maintaining roughly equal calculation portions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nranks</span><span class="p">):</span>
+    <span class="c1"># If rank is 0 (the first rank), then start is index 0</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>
+
+    <span class="c1"># If rank is nranks-1 (the last rank), then end is index N</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rank</span><span class="w"> </span><span class="si">= }</span><span class="s1"> : </span><span class="si">{</span><span class="n">start</span><span class="w"> </span><span class="si">= :</span><span class="s1">2d</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="si">= :</span><span class="s1">2d</span><span class="si">}</span><span class="s1"> (diff = </span><span class="si">{</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># rank = 0 : start =  0, end =  3 (diff = 3)</span>
+<span class="c1"># rank = 1 : start =  3, end =  7 (diff = 4)</span>
+<span class="c1"># rank = 2 : start =  7, end = 10 (diff = 3)</span>
+<span class="c1"># rank = 3 : start = 10, end = 14 (diff = 4)</span>
+<span class="c1"># rank = 4 : start = 14, end = 18 (diff = 4)</span>
+</pre></div>
+</div>
+</li>
+<li><p>In practice, each process has only one <code class="docutils literal notranslate"><span class="pre">rank</span></code>, so the two bounds of the
+portion are calculated only once.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>
+<span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>
+
+<span class="c1"># A selection of your choice</span>
+<span class="n">portion_h</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># A portion of a few lines</span>
+<span class="n">portion_v</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[:,</span> <span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>  <span class="c1"># A portion of a few columns</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="exercise-4-matrix-multiplication">
+<h3>Exercise #4 - Matrix multiplication<a class="headerlink" href="#exercise-4-matrix-multiplication" title="Link to this heading">#</a></h3>
+<p><strong>Objective</strong>: share the calculation of a matrix multiplication.</p>
+<p>Since the <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_multiplication">matrix multiplication</a> <span class="math notranslate nohighlight">\(A \times B = C\)</span>
+can be calculated column by column, each process will have the same matrix
+<span class="math notranslate nohighlight">\(A\)</span> and a unique portion of matrix <span class="math notranslate nohighlight">\(B\)</span>, namely a block of a few
+consecutive columns from <span class="math notranslate nohighlight">\(B\)</span>. The partial products will then be
+concatenated horizontally to form the resulting matrix <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<figure class="align-default">
+<img alt="_images/parallel-mat-mul.svg" src="_images/parallel-mat-mul.svg" />
+</figure>
+<p><strong>Instructions</strong></p>
+<ol class="arabic simple">
+<li><p>Go to the exercise directory with <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/mpi201-main/lab/multiplication</span></code>.</p></li>
+<li><p>In <a class="reference external" href="https://github.com/calculquebec/mpi201/blob/main/lab/multiplication/matrices_en.py">the file</a>
+<code class="docutils literal notranslate"><span class="pre">matrices_en.py</span></code>, edit the lines with <code class="docutils literal notranslate"><span class="pre">...</span></code>. Essentially, the root
+process:</p>
+<ol class="arabic simple">
+<li><p>Creates matrix <code class="docutils literal notranslate"><span class="pre">A</span></code> and <strong>broadcasts</strong> this matrix to other processes.</p></li>
+<li><p>Creates roughly equal portions of <code class="docutils literal notranslate"><span class="pre">B</span></code> in <code class="docutils literal notranslate"><span class="pre">b_list</span></code> and <strong>distributes</strong>
+one portion to each process.</p></li>
+<li><p><strong>Gathers</strong> the partial multiplications in <code class="docutils literal notranslate"><span class="pre">c_list</span></code> and generates the
+resulting matrix <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
+</ol>
+</li>
+<li><p>Load a <code class="docutils literal notranslate"><span class="pre">scipy-stack</span></code> module to gain access to NumPy.</p></li>
+<li><p>Run the program with two (2), three (3) and four (4) processes.</p></li>
+</ol>
+</section>
+</section>
+<section id="collective-calculations">
+<h2>Collective calculations<a class="headerlink" href="#collective-calculations" title="Link to this heading">#</a></h2>
+<section id="reduction-operations">
+<h3>Reduction operations<a class="headerlink" href="#reduction-operations" title="Link to this heading">#</a></h3>
+<p>This is the equivalent of a <code class="docutils literal notranslate"><span class="pre">gather</span></code> with a loop performing a reduction
+operation. Here are some reduction operations:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Reduction operators</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Operator of type <code class="docutils literal notranslate"><span class="pre">MPI.Op</span></code></p></th>
+<th class="head"><p>Op([3, 5])</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.MAX.html">Maximum</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.MAX</span></code></p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.MIN.html">Minimum</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.MIN</span></code></p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.SUM.html">Sum</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.SUM</span></code></p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.PROD.html">Product</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.PROD</span></code></p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LAND.html">Logical AND</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.LAND</span></code></p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LOR.html">Logical OR</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.LOR</span></code></p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.LXOR.html">Logical exclusive OR</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.LXOR</span></code></p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BAND.html">Binary AND</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.BAND</span></code></p></td>
+<td><p>1 (011 &amp; 101 = 001)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BOR.html">Binary OR</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.BOR</span></code></p></td>
+<td><p>7 (011 | 101 = 111)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.BXOR.html">Binary exclusive OR</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MPI.BXOR</span></code></p></td>
+<td><p>6 (011 ^ 101 = 110)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="reduction-with-reduce">
+<h3>Reduction with <code class="docutils literal notranslate"><span class="pre">reduce</span></code><a class="headerlink" href="#reduction-with-reduce" title="Link to this heading">#</a></h3>
+<p>Here is an example of a <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.reduce">reduction</a>
+that computes the sum of local results:</p>
+<figure class="align-default">
+<img alt="_images/mpi_reduce_en.svg" src="_images/mpi_reduce_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the code would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># reduce(obj: Any, op: Op=SUM, root: int = 0) -&gt; Any | None</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">MPI</span><span class="o">.</span><span class="n">SUM</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="reduction-and-broadcasting-with-allreduce">
+<h3>Reduction and broadcasting with <code class="docutils literal notranslate"><span class="pre">allreduce</span></code><a class="headerlink" href="#reduction-and-broadcasting-with-allreduce" title="Link to this heading">#</a></h3>
+<p>It’s the equivalent of <code class="docutils literal notranslate"><span class="pre">reduce</span></code> + <code class="docutils literal notranslate"><span class="pre">bcast</span></code>, but it’s <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allreduce">more efficient</a>:</p>
+<figure class="align-default">
+<img alt="_images/mpi_allreduce_en.svg" src="_images/mpi_allreduce_en.svg" />
+</figure>
+<p>With <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, the code would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># allreduce(obj: Any, op: Op=SUM) -&gt; Any</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">MPI</span><span class="o">.</span><span class="n">SUM</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="division-of-the-calculation-space">
+<h3>Division of the calculation space<a class="headerlink" href="#division-of-the-calculation-space" title="Link to this heading">#</a></h3>
+<p>We recall this figure seen in the <a class="reference internal" href="1-introduction.html#intro-linear-spaces"><span class="std std-ref">introduction</span></a>:</p>
+<figure class="align-default">
+<img alt="_images/parallel-reduction_en.svg" src="_images/parallel-reduction_en.svg" />
+</figure>
+<ul>
+<li><p>The strategy of dividing the calculation space into more or less equal
+portions still works.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>      <span class="c1"># lower bound</span>
+<span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span> <span class="o">//</span> <span class="n">nranks</span>  <span class="c1"># upper bound</span>
+
+<span class="c1"># Loop in the interval: start &lt;= k &lt; end</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+<li><p>A second strategy involves defining a loop that starts at <code class="docutils literal notranslate"><span class="pre">rank</span></code>, makes
+jumps of <code class="docutils literal notranslate"><span class="pre">nranks</span></code>, and iterates until the end of the calculation space.
+Thus, each process starts the loop at a different index.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">nranks</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>According to the calculation performed, it is possible that one of these two
+strategies will give a more stable numerical result.</p>
+</section>
+<section id="exercise-5-approximation-of-pi">
+<h3>Exercise #5 - Approximation of <span class="math notranslate nohighlight">\(\pi\)</span><a class="headerlink" href="#exercise-5-approximation-of-pi" title="Link to this heading">#</a></h3>
+<p><strong>Objective</strong>: divide the calculation of a long series approximating the
+constant <span class="math notranslate nohighlight">\(\pi\)</span>.</p>
+<p>Given:</p>
+<div class="math notranslate nohighlight">
+\[\pi = 4 \times \frac{\pi}{4} = 4 \times \arctan(1)\]</div>
+<p>And given <a class="reference external" href="https://en.wikipedia.org/wiki/Taylor_series">the Taylor series</a>:</p>
+<div class="math notranslate nohighlight">
+\[\arctan(1) = \sum_{k=0}^{\infty} \frac{(-1)^k}{2k + 1}\]</div>
+<p>It is therefore possible to approximate <span class="math notranslate nohighlight">\(\pi\)</span> with <span class="math notranslate nohighlight">\(N\)</span> terms:</p>
+<div class="math notranslate nohighlight">
+\[\pi \approx 4 \times \sum_{k=0}^{N - 1} \frac{(-1)^k}{2k + 1}\]</div>
+<p>With:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}4 \times (-1)^k &amp; = &amp; \: 4 \times (1 - 2 \times (k \bmod 2)) \\\\
+                &amp; = &amp; \: 4 - 8 \times (k \bmod 2)\end{split}\]</div>
+<p>Numerically, the accumulation of terms must be done in reverse order, that is,
+starting with the smallest term, therefore with the index <span class="math notranslate nohighlight">\(k=N-1\)</span>. This
+allows the smallest terms to be accumulated accurately while minimizing the
+accumulation of errors in the least significant bits of the final result.</p>
+<p><strong>Instructions</strong></p>
+<ol class="arabic simple">
+<li><p>Go to the exercise directory with
+<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/mpi201-main/lab/pi</span></code>.</p></li>
+<li><p>In <a class="reference external" href="https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-jumps.py">the file</a>
+<code class="docutils literal notranslate"><span class="pre">pi-jumps.py</span></code>, complete the conversion of the sequential program into a
+program using MPI.</p>
+<ol class="arabic simple">
+<li><p>Use the strategy of <strong>making jumps</strong> of <code class="docutils literal notranslate"><span class="pre">nranks</span></code> in a loop starting at
+a value of <code class="docutils literal notranslate"><span class="pre">k</span></code> equal to <code class="docutils literal notranslate"><span class="pre">rank</span></code>.</p></li>
+<li><p>Program a reduction of the local variables <code class="docutils literal notranslate"><span class="pre">my_sum</span></code> into the variable
+<code class="docutils literal notranslate"><span class="pre">pi</span></code> of process 0.</p></li>
+<li><p>Run the program with <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code> and <code class="docutils literal notranslate"><span class="pre">4</span></code> processes.</p>
+<ol class="arabic simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">-p</span></code> to measure the actual elapsed time. For example,
+<code class="docutils literal notranslate"><span class="pre">srun</span> <span class="pre">-n</span> <span class="pre">2</span> <span class="pre">time</span> <span class="pre">-p</span> <span class="pre">python</span> <span class="pre">pi-jumps.py</span></code>.</p></li>
+<li><p>Observe the accuracy of the approximation of pi and the <code class="docutils literal notranslate"><span class="pre">real</span></code> time
+of each process.</p></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>In <a class="reference external" href="https://github.com/calculquebec/mpi201/blob/main/lab/pi/pi-portions.py">the file</a>
+<code class="docutils literal notranslate"><span class="pre">pi-portions.py</span></code>, complete the conversion of the sequential program into a
+program using MPI.</p>
+<ol class="arabic simple">
+<li><p>Use the strategy of <strong>looping from a lower bound to an upper bound</strong>.</p></li>
+<li><p>Repeat steps 2.2 (reduction) and 2.3 (experimentation) above, but for the
+file <code class="docutils literal notranslate"><span class="pre">pi-portions.py</span></code>.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="3-point-to-point.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Point-to-point communications</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="5-conclusion.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conclusion</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-data-transfers">Collective data transfers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#broadcasting-data-with-bcast">Broadcasting data with <code class="docutils literal notranslate"><span class="pre">bcast</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-distribution-with-scatter">Data distribution with <code class="docutils literal notranslate"><span class="pre">scatter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gathering-data-with-gather">Gathering data with <code class="docutils literal notranslate"><span class="pre">gather</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workspace-partitioning">Workspace partitioning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-matrix-multiplication">Exercise #4 - Matrix multiplication</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collective-calculations">Collective calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-operations">Reduction operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-with-reduce">Reduction with <code class="docutils literal notranslate"><span class="pre">reduce</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reduction-and-broadcasting-with-allreduce">Reduction and broadcasting with <code class="docutils literal notranslate"><span class="pre">allreduce</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#division-of-the-calculation-space">Division of the calculation space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-approximation-of-pi">Exercise #5 - Approximation of <span class="math notranslate nohighlight">\(\pi\)</span></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Calcul Québec
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Calcul Québec.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
