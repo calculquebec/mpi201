@@ -27,7 +27,7 @@ Une bibliothèque MPI comme ``mpi4py`` facilite les communications :
 - point-à-point
 
   - ``comm.send(envoi, dest, tag=etiquette)``
-  - ``recept = comm.recv(source=source, tag=etiquette, status=etat)``
+  - ``donnees = comm.recv(source=source, tag=etiquette, status=etat)``
 
 - non-bloquantes
 

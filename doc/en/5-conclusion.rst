@@ -27,7 +27,7 @@ An MPI library like ``mpi4py`` facilitates:
 - point-to-point communications
 
   - ``comm.send(obj, dest, tag=tag)``
-  - ``recept = comm.recv(source=source, tag=tag, status=status)``
+  - ``data = comm.recv(source=source, tag=tag, status=status)``
 
 - non-blocking communications
 

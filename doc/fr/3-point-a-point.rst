@@ -37,9 +37,9 @@ communicateur et de la `méthode
 
 .. code-block:: python
 
-    recept = comm.recv(source=source, tag=etiquette, status=etat)
+    donnees = comm.recv(source=source, tag=etiquette, status=etat)
 
-- ``recept`` : une variable ou une partie d’un objet modifiable, pour recevoir
+- ``donnees`` : une variable ou une partie d’un objet modifiable, pour recevoir
   l’objet désérialisé.
 - ``source`` : ``MPI.ANY_SOURCE`` (valeur par défaut) ou un rang précis.
 - ``etiquette`` : ``MPI.ANY_TAG`` (valeur par défaut) ou un nombre précis.
@@ -189,7 +189,7 @@ suivantes :
     requete.wait()
 
     requete = comm.irecv(source=ANY_SOURCE, tag=ANY_TAG)
-    recept = requete.wait(status=None)
+    donnees = requete.wait(status=None)
 
 - Il n’est pas nécessaire que l’envoi et la réception soient tous les deux non
   bloquants (toutes les combinaisons sont permises).

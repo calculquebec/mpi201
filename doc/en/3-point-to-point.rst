@@ -35,9 +35,9 @@ Reciprocally, data reception occurs from the same communicator and the
 
 .. code-block:: python
 
-    recept = comm.recv(source=source, tag=tag, status=status)
+    data = comm.recv(source=source, tag=tag, status=status)
 
-- ``recept``: a variable or part of a modifiable object, to receive the
+- ``data``: a variable or part of a modifiable object, to receive the
   deserialized object.
 - ``source``: ``MPI.ANY_SOURCE`` (default value) or the rank of a specific
   sender.
@@ -187,7 +187,7 @@ With ``mpi4py``, the communicators have the following `methods
     request.wait()
 
     request = comm.irecv(source=ANY_SOURCE, tag=ANY_TAG)
-    recept = request.wait(status=None)
+    data = request.wait(status=None)
 
 - You don’t need to make both send and receive non-blocking (all combinations
   are permitted).
