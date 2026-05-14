@@ -61,50 +61,88 @@ retournées. Typiquement, un seul processus effectue ce calcul.
 Notions avancées
 ----------------
 
-La bibliothèque ``mpi4py`` possède d’autres fonctionnalités :
+La bibliothèque ``mpi4py`` possède d’autres fonctionnalités intéressantes
+pour optimiser les communications et pour s’ajuster aux problèmes dont les
+portions de calcul sont inégales.
 
-- Communications avec des tableaux NumPy.
+Communications avec des tableaux NumPy
+''''''''''''''''''''''''''''''''''''''
 
-  - Ce sont les méthodes débutant par une majuscule (`voir le tutoriel
-    <https://mpi4py.readthedocs.io/en/stable/tutorial.html>`__).
-  - `MPI.Comm.Send
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Send>`__,
-    `MPI.Comm.Recv
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Recv>`__
-  - `MPI.Comm.Isend
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Isend>`__,
-    `MPI.Comm.Irecv
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Irecv>`__
-  - `MPI.Comm.Bcast
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Bcast>`__,
-    `MPI.Comm.Scatter
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatter>`__,
-    `MPI.Comm.Gather
-    <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gather>`__
+Dans les chapitres de l’atelier, les fonctions de communication utilisées
+passaient par une sérialisation et une reconstruction des objets via le
+`module <https://docs.python.org/3/library/pickle.html#module-pickle>`__
+``pickle`` pour transférer des données. Or, pour l’envoi de
+tableaux NumPy, cette étape de sérialisation est inutilement longue, car les
+données sont déjà uniformes et sans structure complexe. De plus, MPI est déjà
+conçu pour transférer des tableaux de données standards (des entiers ou des
+nombres à virgule flottante). Alors, comment en bénéficier?
 
-- Communications collectives avec des portions inégales.
+Pour permettre des communications plus efficaces avec des tableaux NumPy, la
+bibliothèque ``mpi4py`` fournit plusieurs méthodes équivalentes à celles que
+nous avons vues, excepté que leur nom débute par une majuscule :
 
-  - Les fonctions de communication collective vues jusqu’ici envoyaient un même
-    nombre d’éléments pour chaque processus MPI.
-  - Avec ``mpi4py``, les tableaux NumPy peuvent être divisés ou reconstruits
-    avec un nombre différent de valeurs pour chaque processus :
+- `MPI.Comm.Send
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Send>`__,
+  `MPI.Comm.Recv
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Recv>`__
+- `MPI.Comm.Isend
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Isend>`__,
+  `MPI.Comm.Irecv
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Irecv>`__
+- `MPI.Comm.Bcast
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Bcast>`__,
+  `MPI.Comm.Scatter
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatter>`__,
+  `MPI.Comm.Gather
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gather>`__
 
-    - Avec `MPI.Comm.Scatterv
-      <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatterv>`__
-      et `MPI.Comm.Gatherv
-      <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gatherv>`__.
-    - Ces méthodes ne tiennent pas automatiquement compte du stockage interne
-      des tableaux NumPy, mais seulement de la séquence contiguë de données en
-      mémoire. Il faut donc planifier le stockage interne du tableau NumPy :
-      en mode *C*, les valeurs d’une matrice 2D sont stockées ligne par ligne,
-      alors qu’en mode *Fortran* elles sont stockées colonne par colonne.
+Voici un extrait de code adapté de l’exemple `Broadcasting a NumPy array
+<https://mpi4py.readthedocs.io/en/stable/tutorial.html#collective-communication>`__ :
 
-      - Pour plus d’information, voir les `strides
-        <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.strides.html>`__.
+.. code-block:: python
 
-    - Voir `les exemples
-      <https://github.com/calculquebec/mpi201/tree/main/lab/scatterv>`__
-      dans ``~/mpi201-main/lab/scatterv``.
+    if rank == 0:
+        tableau = np.arange(1000, dtype='i')
+    else:
+        tableau = np.empty(1000, dtype='i')
+
+    # Le processus 0 envoie son tableau aux autres
+    comm.Bcast(tableau, 0)
+
+On remarque que le tableau à la réception doit être préalablement construit
+avant d’appeler la méthode ``Bcast()``.
+
+Pour d’autres exemples, voir le `tutoriel complet
+<https://mpi4py.readthedocs.io/en/stable/tutorial.html>`__.
+
+
+Communications collectives avec des portions inégales
+'''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Les fonctions de communication collective vues jusqu’ici envoyaient un même
+nombre d’éléments pour chaque processus MPI. Avec ``mpi4py``, les tableaux
+NumPy peuvent être divisés ou reconstruits avec un nombre différent de valeurs
+pour chaque processus :
+
+- Les deux méthodes principales sont : `MPI.Comm.Scatterv
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatterv>`__
+  et `MPI.Comm.Gatherv
+  <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gatherv>`__.
+- Ces méthodes ne tiennent pas automatiquement compte du stockage interne
+  des tableaux NumPy ; elles supposent une séquence contiguë de données en
+  mémoire. Il faut donc planifier le stockage interne du tableau NumPy :
+  en mode *C*, les valeurs d’une matrice 2D sont stockées ligne par ligne,
+  alors qu’en mode *Fortran* elles sont stockées colonne par colonne.
+
+  - Pour plus d’information, voir les `strides
+    <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.strides.html>`__
+    et `le paramètre
+    <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html>`__
+    ``order``.
+
+- Voir aussi `les exemples
+  <https://github.com/calculquebec/mpi201/tree/main/lab/scatterv>`__
+  dans ``~/mpi201-main/lab/scatterv``.
 
 MPI dans les autres langages
 ----------------------------
