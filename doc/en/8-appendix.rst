@@ -3,83 +3,82 @@ Appendix
 
 `Français <../fr/8-annexes.html>`_
 
-Autres communications collectives
----------------------------------
+Other collective communications
+-------------------------------
 
-Regroupement à tous avec ``allgather``
-''''''''''''''''''''''''''''''''''''''
+Gather to all with ``allgather``
+''''''''''''''''''''''''''''''''
 
-C’est l’équivalent de ``gather`` + ``bcast``, mais en `plus efficace
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allgather>`__ :
+It is the equivalent of ``gather`` + ``bcast``, but `more efficient
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.allgather>`__:
 
 .. figure:: ../images/mpi_allgather_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
-    # allgather(envoi: Any) -> list[Any]
+    # allgather(obj: Any) -> list[Any]
 
     b = comm.allgather(a)
 
-Transposition globale avec ``alltoall``
-'''''''''''''''''''''''''''''''''''''''
+Global transposition with ``alltoall``
+''''''''''''''''''''''''''''''''''''''
 
-C’est l’équivalent de ``scatter`` * ``gather``, mais en `plus efficace
-<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.alltoall>`__ :
+It is the equivalent of ``scatter`` * ``gather``, but `more efficient
+<https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.alltoall>`__:
 
 .. figure:: ../images/mpi_alltoall_en.svg
 
-Avec ``mpi4py``, on aurait le code suivant :
+With ``mpi4py``, the code would be:
 
 .. code-block:: python
 
-    # alltoall(envoi: Sequence[Any]) -> list[Any]
+    # alltoall(sequence_obj: Sequence[Any]) -> list[Any]
 
     b = comm.alltoall(a)
 
-Mesure du temps écoulé avec ``MPI.Wtime()``
+Measuring elapsed time with ``MPI.Wtime()``
 -------------------------------------------
 
-Pour mesurer précisément le temps d’exécution d’une partie du code Python, on
-peut utiliser la fonction ``MPI.Wtime()`` qui retourne une valeur de temps en
-secondes en double précision. Pour calculer un temps écoulé, il suffit
-d’appeler la fonction deux fois et de calculer la différence des valeurs
-retournées. Typiquement, un seul processus effectue ce calcul.
+To precisely measure the execution time of a section of code, you can use the
+``MPI.Wtime()`` function, which returns a double-precision time value in
+seconds. To calculate the elapsed time, simply call the function twice and
+calculate the difference between the returned values. Typically, a single
+process performs this calculation.
 
 .. code-block:: python
 
     if rank == 0:
         t1 = MPI.Wtime()
 
-    # Calcul parallèle et communications
+    # Parallel computing and communications
 
     if rank == 0:
         t2 = MPI.Wtime()
-        print(f'Temps = {t2 - t1:.6f} sec')
+        print(f'Elapsed time = {t2 - t1:.6f} sec')
 
-Notions avancées
-----------------
+Advanced concepts
+-----------------
 
-La bibliothèque ``mpi4py`` possède d’autres fonctionnalités intéressantes
-pour optimiser les communications et pour s’ajuster aux problèmes dont les
-portions de calcul sont inégales.
+The ``mpi4py`` library has other interesting features for optimizing
+communications and for adapting to problems where the computational
+portions are unequal.
 
-Communications avec des tableaux NumPy
-''''''''''''''''''''''''''''''''''''''
+Communications with NumPy arrays
+''''''''''''''''''''''''''''''''
 
-Dans les chapitres de l’atelier, les fonctions de communication utilisées
-passaient par une sérialisation et une reconstruction des objets via le
-`module <https://docs.python.org/3/library/pickle.html#module-pickle>`__
-``pickle`` pour transférer des données. Or, pour l’envoi de
-tableaux NumPy, cette étape de sérialisation est inutilement longue, car les
-données sont déjà uniformes et sans structure complexe. De plus, MPI est déjà
-conçu pour transférer des tableaux de données standards (des entiers ou des
-nombres à virgule flottante). Alors, comment en bénéficier?
+In the workshop chapters, the communication functions used relied on
+serializing and reconstructing objects via the ``pickle`` `module
+<https://docs.python.org/3/library/pickle.html#module-pickle>`__ to transfer
+data. However, for sending NumPy arrays, this serialization step is
+unnecessarily lengthy, as the data is already uniform and lacks complex
+structures. Furthermore, MPI is already designed to transfer standard data
+arrays (integers or floating-point numbers). So, how can we leverage this?
 
-Pour permettre des communications plus efficaces avec des tableaux NumPy, la
-bibliothèque ``mpi4py`` fournit plusieurs méthodes équivalentes à celles que
-nous avons vues, excepté que leur nom débute par une majuscule :
+To enable more efficient communications with NumPy arrays, the ``mpi4py``
+library provides several methods equivalent to those we have seen, except that
+their names begin with a capital letter:
 
 - `MPI.Comm.Send
   <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Send>`__,
@@ -96,65 +95,63 @@ nous avons vues, excepté que leur nom débute par une majuscule :
   `MPI.Comm.Gather
   <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gather>`__
 
-Voici un extrait de code adapté de l’exemple `Broadcasting a NumPy array
-<https://mpi4py.readthedocs.io/en/stable/tutorial.html#collective-communication>`__ :
+Here is a code snippet adapted from the `Broadcasting a NumPy array
+<https://mpi4py.readthedocs.io/en/stable/tutorial.html#collective-communication>`__
+example:
 
 .. code-block:: python
 
     if rank == 0:
-        tableau = np.arange(1000, dtype='i')
+        my_array = np.arange(1000, dtype='i')
     else:
-        tableau = np.empty(1000, dtype='i')
+        my_array = np.empty(1000, dtype='i')
 
-    # Le processus 0 envoie son tableau aux autres
-    comm.Bcast(tableau, 0)
+    # Process 0 sends its my_array to the others
+    comm.Bcast(my_array, 0)
 
-On remarque que le tableau à la réception doit être préalablement construit
-avant d’appeler la méthode ``Bcast()``.
+Note that the receiving array must be constructed beforehand before calling the
+``Bcast()`` method.
 
-Pour d’autres exemples, voir le `tutoriel complet
+For more examples, see the `complete tutorial
 <https://mpi4py.readthedocs.io/en/stable/tutorial.html>`__.
 
+Collective communications with unequal portions
+'''''''''''''''''''''''''''''''''''''''''''''''
 
-Communications collectives avec des portions inégales
-'''''''''''''''''''''''''''''''''''''''''''''''''''''
+The collective communication functions seen so far sent the same number of
+elements for each MPI process. With ``mpi4py``, NumPy arrays can be split or
+rebuilt with a different number of values for each process:
 
-Les fonctions de communication collective vues jusqu’ici envoyaient un même
-nombre d’éléments pour chaque processus MPI. Avec ``mpi4py``, les tableaux
-NumPy peuvent être divisés ou reconstruits avec un nombre différent de valeurs
-pour chaque processus :
-
-- Les deux méthodes principales sont : `MPI.Comm.Scatterv
+- The two main methods are: `MPI.Comm.Scatterv
   <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Scatterv>`__
-  et `MPI.Comm.Gatherv
+  and `MPI.Comm.Gatherv
   <https://mpi4py.readthedocs.io/en/stable/reference/mpi4py.MPI.Comm.html#mpi4py.MPI.Comm.Gatherv>`__.
-- Ces méthodes ne tiennent pas automatiquement compte du stockage interne
-  des tableaux NumPy ; elles supposent une séquence contiguë de données en
-  mémoire. Il faut donc planifier le stockage interne du tableau NumPy :
-  en mode *C*, les valeurs d’une matrice 2D sont stockées ligne par ligne,
-  alors qu’en mode *Fortran* elles sont stockées colonne par colonne.
+- These methods do not automatically account for the internal storage of NumPy
+  arrays; they assume a contiguous sequence of data in memory. Therefore, the
+  internal storage of the NumPy array must be planned: in *C* mode, the values
+  of a 2D matrix are stored row by row, while in *Fortran* mode they are stored
+  column by column.
 
-  - Pour plus d’information, voir les `strides
+  - For more information, see `strides
     <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.strides.html>`__
-    et `le paramètre
-    <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html>`__
-    ``order``.
+    and the ``order`` `parameter
+    <https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html>`__.
 
-- Voir aussi `les exemples
+- See also `the examples
   <https://github.com/calculquebec/mpi201/tree/main/lab/scatterv>`__
-  dans ``~/mpi201-main/lab/scatterv``.
+  in ``~/mpi201-main/lab/scatterv``.
 
-MPI dans les autres langages
-----------------------------
+MPI in other programming languages
+----------------------------------
 
-- C et Fortran : le standard MPI est déjà défini dans ces langages.
-- C++ :
+- C and Fortran: the MPI standard is already defined in these languages.
+- C++:
 
-  - MPI 3.0 a éliminé les interfaces C++.
-  - `Boost MPI <https://www.boost.org/doc/libs/release/libs/mpi/>`__ :
-    bibliothèque pratique et très puissante pour les développeurs en C++.
-  - `Midi-conférence Boost-MPI
-    <https://www.youtube.com/watch?v=U0axIKTO3wM>`__.
+  - MPI 3.0 has eliminated C++ bindings.
+  - `Boost MPI <https://www.boost.org/doc/libs/release/libs/mpi/>`__:
+    a practical and very powerful library for C++ developers.
+  - `Boost-MPI lunchtime conference
+    <https://www.youtube.com/watch?v=U0axIKTO3wM>`__ (in French).
 
   .. code-block:: c++
 
@@ -165,28 +162,27 @@ MPI dans les autres langages
       if (world.rank() == 0)
           world.recv(boost::mpi::any_source, 746, s);
 
-Défis de parallélisation supplémentaires
-----------------------------------------
+Additional parallelization challenges
+-------------------------------------
 
-Les codes suivants fonctionnent déjà en mode séquentiel.
-C’est maintenant à vous de les paralléliser avec MPI :
+The following codes already work in sequential mode.
+Now it's up to you to parallelize them with MPI:
 
-- `Convolution sur une image
+- `Convolution on an image
   <https://github.com/calculquebec/cq-formation-convolution/tree/main/defi-mpi>`__
-- `Écoulement de chaleur
+- `Heat flow
   <https://github.com/calculquebec/cq-formation-ecoulement-chaleur>`__
-- `Problème à N corps
+- `N-body problem
   <https://github.com/calculquebec/cq-formation-nbody>`__
 
-Pour mesurer le temps d’exécution d’un programme, la commande ``time srun``
-doit être dans un `script de tâche
-<https://docs.alliancecan.ca/wiki/Running_jobs/fr#T.C3.A2che_MPI>`__
-soumis avec la commande ``sbatch`` :
+To measure the execution time of a program, the ``time srun`` command must be
+in a `job script <https://docs.alliancecan.ca/wiki/Running_jobs#MPI_job>`__
+submitted with the ``sbatch`` command:
 
 .. code-block:: bash
 
     #!/bin/bash
     #SBATCH --ntasks=4
-    #SBATCH … # temps, mémoire, etc.
+    #SBATCH … # time, memory, etc.
 
-    time srun ./programme
+    time srun ./program
