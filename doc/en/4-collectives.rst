@@ -114,30 +114,16 @@ begin its calculation and up to which (excluded) index it must calculate.
 
       # AssertionError: 15 != 18
 
-- However, we can calculate a lower bound and an upper bound for each portion
-  based on the variable ``rank``. In the code below, we see two ways to
-  calculate the lower bound ``start``. Subsequently, we would need to use
-  ``rank + 1`` in the same formulas to calculate the upper bound ``end``.
+- However, we can calculate **a lower bound and an upper bound** for each
+  portion based on the variable ``rank``:
 
-  .. code-block:: python
-
-      for rank in range(nranks):
-          portion_size = N / nranks  # 3.6
-          start_by_size_float = int(portion_size * rank)
-          start_by_product_first = rank * N // nranks
-
-          print(start_by_size_float, start_by_product_first)
-
-      # 0 0
-      # 3 3
-      # 7 7
-      # 10 10
-      # 14 14
-
-- In the example below, the upper bound ``end`` of the ``rank`` process
-  corresponds to the lower bound ``start`` of the ``rank + 1`` process. Thus,
-  this bound calculation ensures that none of the ``N`` elements are overlooked
-  while maintaining roughly equal calculation portions.
+  - In the code below, we see how to calculate a lower bound ``start``.
+  - Then, we need to use ``rank + 1`` in the same formula to calculate the
+    upper bound ``end``.
+  - Consequently, the upper bound ``end`` of the ``rank`` process
+    corresponds to the lower bound ``start`` of the ``rank + 1`` process.
+  - Thus, this bound calculation ensures that none of the ``N`` elements are
+    overlooked while maintaining roughly equal calculation portions.
 
   .. code-block:: python
 

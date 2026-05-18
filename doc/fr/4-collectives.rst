@@ -118,31 +118,17 @@ calculer.
 
       # AssertionError: 15 != 18
 
-- Par contre, on peut calculer une borne inférieure et une borne supérieure
-  pour chaque portion en fonction de la variable ``rank``. Dans le code
-  ci-dessous, on voit deux façons de calculer la borne inférieure ``debut``.
-  Par la suite, il faudrait utiliser ``rank + 1`` dans les mêmes formules pour
-  calculer la borne supérieure ``fin``.
+- Par contre, on peut calculer **une borne inférieure et une borne supérieure**
+  pour chaque portion en fonction de la variable ``rank`` :
 
-  .. code-block:: python
-
-      for rank in range(nranks):
-          taille_portion = N / nranks  # 3.6
-          debut_par_taille_float = int(taille_portion * rank)
-          debut_produit_dabord = rank * N // nranks
-
-          print(debut_par_taille_float, debut_produit_dabord)
-
-      # 0 0
-      # 3 3
-      # 7 7
-      # 10 10
-      # 14 14
-
-- Dans l’exemple ci-dessous, la borne supérieure ``fin`` du processus ``rank``
-  correspond à la borne inférieure ``debut`` du processus ``rank + 1``. Ainsi,
-  ce calcul des bornes permet de n’oublier aucun des ``N`` éléments tout en
-  ayant des portions de calcul plus ou moins égales.
+  - Dans le code ci-dessous, on voit comment calculer une borne inférieure
+    ``debut``.
+  - Ensuite, il faut utiliser ``rank + 1`` dans la même formule pour calculer
+    la borne supérieure ``fin``.
+  - Par conséquent, la borne supérieure ``fin`` du processus ``rank``
+    correspond à la borne inférieure ``debut`` du processus ``rank + 1``.
+  - Ainsi, ce calcul des bornes permet de n’oublier aucun des ``N`` éléments
+    tout en ayant des portions de calcul plus ou moins égales.
 
   .. code-block:: python
 
