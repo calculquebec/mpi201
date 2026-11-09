@@ -19,7 +19,7 @@ def main():
     else:
         A = ...
 
-    # Diffusion of matrix A
+    # Send matrix A to all processes
     A = comm.(...)
 
     if rank == 0:
